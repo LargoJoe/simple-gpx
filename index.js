@@ -16,13 +16,15 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
     var parseString = xml2js.parseString;
-    fs.readFile(req.files.fileinput.path, function (err, data) {
-        if (err) {
-            res.send(err);
-        }
-        res.send(data);
-    });
-
+    var data = JSON.stringify(res.files);
+    res.send(data);
+    /*fs.readFile(req.files.fileinput.path, function (err, data) {
+     if (err) {
+     res.send(err);
+     }
+     res.send(data);
+     });
+     */
 });
 
 app.listen(app.get('port'), function () {
