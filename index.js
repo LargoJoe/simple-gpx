@@ -1,10 +1,7 @@
 var express = require('express');
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
-var simplify = require('simplify-js');
-
-var simple = simplify();
-
+var simplify = require('./simplify.js');
 
 
 var storage = multer.memoryStorage();
