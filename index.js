@@ -13,7 +13,7 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
 
-app.post('/', upload.single('*'), function (req, res) {
+app.post('/', upload.single('fileinput'), function (req, res) {
     res.send(JSON.stringify(req.file));
 });
 
