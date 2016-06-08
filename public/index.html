@@ -18,13 +18,17 @@ and open the template in the editor.
                 tracks to reduce the file size. It uses a combination of Douglas-Peucker 
                 and Radial Distance algorithms. You can choose the level of simplification</p>  
             <form>
-               <input type="file" id="fileinput" />
-               <p>How close you wish the new track to be to the old track</p>
-               <select>
+               <p>How close do you wish the new track to align to the old track? A value of 10 metres
+               gives a good compromise between size of resulting file and how well
+               new track follows original.</p>
+               <select name="accuracy">
                    <option value="1">1 metre</option>
                    <option value="10" selected>10 metres</option>
                    <option value="100">100 metres</option>
-               </select>
+               </select> 
+               <p>Choose the GPX file to be simplified</p>
+               <input type="file" id="fileinput" name="fileinput"/>
+               
                
                 
             </form> 
