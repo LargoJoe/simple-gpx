@@ -5,7 +5,7 @@
 $(document).ready(function () {
     $('#file-input').on('change',
             function (e) {
-                alert("changed");
+                $('gpx-simplify-form').submit();
             });
 });
 
