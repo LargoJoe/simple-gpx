@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
-    res.write(gpx);
+    res.write("gpx");
 });
 
 app.listen(app.get('port'), function () {
