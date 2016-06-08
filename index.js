@@ -37,8 +37,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     pts.push(pt);
 
                 }
-                res.send(pts.length);
-                simple_pts = simple_pts.concat(simplify(pts, 0.00000001));
+
+                simple_pts = simple_pts.concat(pts);
 
             }
         }
