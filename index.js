@@ -25,7 +25,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
     parseString(gpx, function (err, result) {
         var tracks = result.gpx.trk;
         var t = tracks.length;
-        res.send(t);
+
         for (var i = 0; i < tracks.length; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
@@ -37,7 +37,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     pts.push(pt);
 
                 }
-                simple_pts = simple_pts.concat(simplify(pts, 0.000001));
+                simple_pts = simple_pts.concat(simplify(pts, 0.0000001));
 
             }
         }
