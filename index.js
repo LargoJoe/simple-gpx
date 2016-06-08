@@ -4,7 +4,9 @@ var xml2js = require('xml2js');
 var fs = require('fs');
 
 
-var upload = multer();
+var storage = multer.memoryStorage()
+var upload = multer({storage: storage})
+
 
 var app = express();
 
@@ -16,8 +18,8 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.post('/', upload.single('fileinput'), function (req, res) {
-    //var gpx = req.file.buffer;
-    res.write("gpx");
+    var gpx = req.file.buffer.toString();
+    res.send(gpx);
 });
 
 app.listen(app.get('port'), function () {
