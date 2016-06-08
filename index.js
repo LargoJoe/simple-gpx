@@ -15,8 +15,10 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
     var parseString = xml2js.parseString;
-    fs.readFile(req.files.file - input.path, function (err, data) {
-
+    fs.readFile(req.files.fileinput.path, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
         res.send(data);
     });
 
