@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
     var parseString = xml2js.parseString;
-    var data = JSON.stringify(req.files);
+    var data = JSON.stringify(req.files.fileinput);
     res.send(data);
     /*fs.readFile(req.files.fileinput.path, function (err, data) {
      if (err) {
