@@ -21,9 +21,25 @@ app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
     var parseString = xml2js.parseString;
     parseString(gpx, function (err, result) {
-        var trk = result.gpx.trk[0].trkseg[0].trkpt[1].$;
+        var tracks = result.gpx.trk;
+        for (var i = 0; i < tracks.length; ++i) {
+            var trksegs = tracks[i].trkseg;
+            for (var j = 0; j < trksegs.length; ++j) {
+                var trkpts = trksegs[j].trkpt;
+                var pts = []
+                for (var k = 0; k < trkpts; ++k) {
+                    var pt = trkpts[k].$;
+                    pts.push(pt);
+                }
+                res.send(pts);
 
-        res.send(trk);
+            }
+        }
+
+
+        //var trk = result.gpx.trk[0].trkseg[0].trkpt[1].$;
+
+        //res.send(trk);
     });
 
 });
