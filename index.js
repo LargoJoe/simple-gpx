@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require("body-parser");
-var xml2js = require('node-xml2js');
+var xml2js = require('xml2js');
 
 
 var app = express();
@@ -19,8 +19,6 @@ app.post('/', function (req, res) {
 
         res.send(data);
     });
-
-
 
 });
 
