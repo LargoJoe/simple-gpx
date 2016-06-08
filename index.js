@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.post('/', function (req, res) {
-    rese.send(req.file);
+    res.send(req.file);
 });
 
 app.listen(app.get('port'), function () {
