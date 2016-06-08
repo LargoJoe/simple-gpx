@@ -24,7 +24,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
     var simple_pts = [];
     parseString(gpx, function (err, result) {
         var tracks = result.gpx.trk;
-        res.send(tracks.length);
+        var t = tracks.length;
+        res.send(t);
         for (var i = 0; i < tracks.length; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
