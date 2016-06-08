@@ -37,13 +37,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     pts.push(pt);
 
                 }
-                var p = simplify(pts, 0);
-                simple_pts = simple_pts.concat(p);
+
+                simple_pts = pts;
 
             }
         }
-
-        res.send(simple_pts);
+        p = simplify(simple_points, 0.00001);
+        res.send(p);
         //var trk = result.gpx.trk[0].trkseg[0].trkpt[1].$;
 
         //res.send(trk);
