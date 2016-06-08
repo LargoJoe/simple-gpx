@@ -20,20 +20,22 @@ app.use(express.static(__dirname + '/public'));
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
     var parseString = xml2js.parseString;
+
+    var simple_pts = [];
     parseString(gpx, function (err, result) {
         var tracks = result.gpx.trk;
         for (var i = 0; i < tracks.length; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
                 var trkpts = trksegs[j].trkpt;
-                var pts = []
-                var simple_pts;
+                var pts = [];
+
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
 
                 }
-                var simple_pts = simplify(pts, 0.00008);
+                var simple_pts = simple_pts.concat(simplify(pts, 0.00008));
                 res.send(simple_pts);
 
             }
