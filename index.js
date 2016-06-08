@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.post('/', upload.single('fileinput'), function (req, res) {
-    res.send(req.file.path);
+    res.sendFile(req.file.path);
 });
 
 app.listen(app.get('port'), function () {
