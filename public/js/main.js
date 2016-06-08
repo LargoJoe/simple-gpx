@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $('#file-input').on('change',
+    $('#fileinput').on('change',
             function (e) {
                 $('#gpx-simplify-form').submit();
             });
