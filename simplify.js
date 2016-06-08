@@ -7,14 +7,14 @@
 (function () {
 
 
-// to suit your point format, run search/replace for '.x' and '.y';
+// to suit your point format, run search/replace for '.lat' and '.lon';
 // for 3D version, see 3d branch (configurability would draw significant performance overhead)
 
 // square distance between 2 points
     function getSqDist(p1, p2) {
 
-        var dx = p1.x - p2.x,
-                dy = p1.y - p2.y;
+        var dx = p1.lat - p2.lat,
+                dy = p1.lon - p2.lon;
 
         return dx * dx + dy * dy;
     }
@@ -22,18 +22,18 @@
 // square distance from a point to a segment
     function getSqSegDist(p, p1, p2) {
 
-        var x = p1.x,
-                y = p1.y,
-                dx = p2.x - x,
-                dy = p2.y - y;
+        var x = p1.lat,
+                y = p1.lon,
+                dx = p2.lat - x,
+                dy = p2.lon - y;
 
         if (dx !== 0 || dy !== 0) {
 
-            var t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+            var t = ((p.lat - x) * dx + (p.lon - y) * dy) / (dx * dx + dy * dy);
 
             if (t > 1) {
-                x = p2.x;
-                y = p2.y;
+                x = p2.lat;
+                y = p2.lon;
 
             } else if (t > 0) {
                 x += dx * t;
@@ -41,8 +41,8 @@
             }
         }
 
-        dx = p.x - x;
-        dy = p.y - y;
+        dx = p.lat - x;
+        dy = p.lon - y;
 
         return dx * dx + dy * dy;
     }
