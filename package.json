@@ -13,6 +13,7 @@
     
     "express": "4.13.3" ,
     "multer":"1.1.0",
+    "simplify-js":"1.2.2",
     "xml2js": "0.4.16"
   }
 }
