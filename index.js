@@ -31,7 +31,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
-                    var simple_pts = simplify(pts, 0.01);
+                    var simple_pts = simplify(pts, 0.00008);
                 }
                 res.send(simple_pts);
 
@@ -49,6 +49,15 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
+
+function accuracy(lat, lon) {
+
+
+    //Earth’s radius, sphere
+    R = 6378137
+
+
+}
 
 
 
