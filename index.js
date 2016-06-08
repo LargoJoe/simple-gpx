@@ -3,8 +3,8 @@ var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
 var fs = require('fs');
 
-var storage = multer.memoryStorage();
-var upload = multer({storage: storage});
+
+var upload = multer();
 
 var app = express();
 
