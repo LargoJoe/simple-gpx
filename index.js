@@ -21,7 +21,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
     var parseString = xml2js.parseString;
     parseString(gpx, function (err, result) {
-        var trk = result.gpx.trk[0].trkseg.trkpt[0];
+        var trk = result.gpx.trk[0].trkseg;
 
         res.send(trk);
     });
