@@ -2,7 +2,9 @@ var express = require('express');
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
 var fs = require('fs');
-var upload = multer();
+
+var storage = multer.memoryStorage();
+var upload = multer({storage: storage});
 
 var app = express();
 
@@ -14,12 +16,8 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.post('/', upload.single('fileinput'), function (req, res) {
-    fs.readFile(req.file.path, function read(err, data) {
-        if (err) {
-            throw err;
-        }
-        res.send(data);
-    });
+    var gpx = req.file.buffer.toString();
+    res.write(gpx);
 });
 
 app.listen(app.get('port'), function () {
