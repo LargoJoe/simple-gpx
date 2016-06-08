@@ -12,7 +12,7 @@ app.set('port', (process.env.PORT || 5000));
 
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
+app.use(bodyParser());
 
 app.post('/', function (req, res) {
     var parseString = xml2js.parseString;
