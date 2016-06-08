@@ -1,2 +1,2 @@
 # simple-gpx
-node application to simplifly gpx tracks
+node application to simplify gpx tracks
