@@ -31,7 +31,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
-                    var simple_pts = simplify(pts);
+                    var simple_pts = simplify(pts, 0.01);
                 }
                 res.send(simple_pts);
 
