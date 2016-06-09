@@ -46,6 +46,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  */
 
                 var tolerance = req.body.tolerance * 0.000009;
+                console.log(req.body);
 
                 var simple_pts = simplify(pts, tolerance);
                 var formatted_pts = [];
