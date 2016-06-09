@@ -59,14 +59,14 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var data = zip.file(req.file.originalname, xml);
         res.send(data);
     });
-    app.listen(app.get('port'), function () {
-        console.log('Node app is running on port', app.get('port'));
-    });
-    function metre(lat) {
-        // metres per degree of latitude
-        rlat = lat * Math.PI / 180;
-        return 111132.92 - 559.82 * Math.cos(2 * rlat) + 1.175 * Math.cos(4 * rlat);
-    }
-
-
 });
+
+app.listen(app.get('port'), function () {
+    console.log('Node app is running on port', app.get('port'));
+});
+
+function metre(lat) {
+    // metres per degree of latitude
+    rlat = lat * Math.PI / 180;
+    return 111132.92 - 559.82 * Math.cos(2 * rlat) + 1.175 * Math.cos(4 * rlat);
+}
