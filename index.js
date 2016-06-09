@@ -46,7 +46,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  */
 
                 var tolerance = req.body.tolerance / metre(pts[0].lat);
-                console.log(metre(pts[0].lat));
+
 
                 var simple_pts = simplify(pts, tolerance);
                 var formatted_pts = [];
@@ -62,6 +62,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         res.set('Content-Type', 'text/xml');
         res.set('Content-Disposition', 'attachment; filename=' + req.file.name);
         res.send(xml);
+        console.log(req.file);
         //var trk = result.gpx.trk[0].trkseg[0].trkpt[1].$;
 
         //res.send(trk);
