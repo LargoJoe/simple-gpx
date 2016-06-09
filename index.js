@@ -45,8 +45,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  * this trkseg
                  */
 
-                var tolerance = req.body.tolerance * 0.000009;
-                console.log(req.body);
+                var tolerance = req.body.tolerance * metre(pts[0].lat);
+                console.log(metre(pts[0].lat));
 
                 var simple_pts = simplify(pts, tolerance);
                 var formatted_pts = [];
@@ -73,12 +73,9 @@ app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
 
-function accuracy(lat, lon) {
-
-
-    //Earth’s radius, sphere
-    R = 6378137
-
+function metre(lat) {
+    rlat = lat * Math.PI / 180;
+    return 111132.92 - 559.82 * cos(2 * rlat) + 1.175 * cos(4 * rlat);
 
 }
 
