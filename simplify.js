@@ -22,29 +22,21 @@
 // square distance from a point to a segment
     function getSqSegDist(p, p1, p2) {
 
-        var x = p1.lat,
-                y = p1.lon,
-                dx = p2.lat - x,
-                dy = p2.lon - y;
+        var x1 = p1.lon,
+                y1 = p1.lat,
+                x2 = p2.lon,
+                y2 = p2.lat,
+                dx = x2 - x1,
+                dy = y2 - y1,
+                x0 = p.lon,
+                y0 = p.lat;
 
-        if (dx !== 0 || dy !== 0) {
+        var numerator = Math.pow(dy * x0 - dx * y0 + x2 * y1 - y2 * x1, 2);
+        var denominator = Math.pow(dy, 2) + Math.pow(dx, 2);
 
-            var t = ((p.lat - x) * dx + (p.lon - y) * dy) / (dx * dx + dy * dy);
 
-            if (t > 1) {
-                x = p2.lat;
-                y = p2.lon;
 
-            } else if (t > 0) {
-                x += dx * t;
-                y += dy * t;
-            }
-        }
-
-        dx = p.lat - x;
-        dy = p.lon - y;
-
-        return dx * dx + dy * dy;
+        return numerator / denominator;
     }
 // rest of the code doesn't care about point format
 
@@ -84,7 +76,7 @@
         }
 
         if (maxSqDist > sqTolerance) {
-            console.log(maxSqDist + ' ' + sqTolerance)
+
             if (index - first > 1)
                 simplifyDPStep(points, first, index, sqTolerance, simplified);
             simplified.push(points[index]);
