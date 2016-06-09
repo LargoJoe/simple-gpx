@@ -53,18 +53,18 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         }
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
-
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
         var zip = new jszip();
         zip.file(req.file.originalname, xml);
-        res.send(zip);
+        zip.generateAsync({type: "blob"})
+                .then(function (blob) {
+                    res.send(blob);
+                })
     });
 });
-
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
-
 function metre(lat) {
     // metres per degree of latitude
     rlat = lat * Math.PI / 180;
