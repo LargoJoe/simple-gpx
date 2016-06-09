@@ -54,7 +54,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
-        var zip = new jszip();
+        var zip = jszip();
+        console.log(zip);
         zip.file(req.file.originalname, xml);
         zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
                 .pipe(res);
