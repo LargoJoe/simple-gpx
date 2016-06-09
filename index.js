@@ -75,7 +75,7 @@ app.listen(app.get('port'), function () {
 
 function metre(lat) {
     rlat = lat * Math.PI / 180;
-    return 111132.92 - 559.82 * cos(2 * rlat) + 1.175 * cos(4 * rlat);
+    return 111132.92 - 559.82 * Math.cos(2 * rlat) + 1.175 * Math.cos(4 * rlat);
 
 }
 
