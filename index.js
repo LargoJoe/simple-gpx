@@ -6,6 +6,7 @@ var xml2js = require('xml2js');
 var archiver = require('archiver'); // zip files
 
 
+
 var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
 
@@ -59,7 +60,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
         //zip content to be returned
         var archive = archiver.create('zip', {});
-        archive.append(xml);
+        archive.append(xml, {name: req.file.originalname});
         archive.finalize();
         archive.pipe(res);
         res.send(xml);
