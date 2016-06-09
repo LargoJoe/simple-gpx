@@ -40,7 +40,14 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
                 }
-                var simple_pts = simplify(pts, 0.00009);
+                /*
+                 * Simplify and replace trkpoints with simplified trkpoints for
+                 * this trkseg
+                 */
+
+                var tolerance = req.body.tolerance * 0.000009;
+
+                var simple_pts = simplify(pts, tolerance);
                 var formatted_pts = [];
                 for (var l = 0; l < simple_pts.length; ++l) {
                     formatted_pts[l] = {};
