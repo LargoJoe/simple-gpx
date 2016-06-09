@@ -66,7 +66,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var data = zlib.Gzip(xml);
 
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
-        res.send(data);
+        res.send(xml);
 
     });
 
