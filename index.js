@@ -1,7 +1,10 @@
 var express = require('express');
+
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
-var jszip = require('./jszip');
+
+var archiver = require('archiver'); // zip files
+
 
 var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
@@ -54,6 +57,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
+        //zip content to be returned
+        var archive = archiver.create('zip', {});
+        archive.append(xml);
+        archive.finalize();
+        archive.pipe(res);
         res.send(xml);
 
     });
