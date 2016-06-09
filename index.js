@@ -29,6 +29,10 @@ app.use(express.static(__dirname + '/public'));
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
     parseString(gpx, function (err, result) {
+        if (err) {
+            res.send(err);
+            return;
+        }
         var tracks = result.gpx.trk;
         var t = tracks.length;
         for (var i = 0; i < tracks.length; ++i) {

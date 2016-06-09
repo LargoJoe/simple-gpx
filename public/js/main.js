@@ -7,5 +7,9 @@ $(document).ready(function () {
             function (e) {
                 $('#gpx-simplify-form').submit();
             });
+    $('#tolerance').on('change',
+            function (e) {
+                $('#gpx-simplify-form').submit();
+            });
 });
 
