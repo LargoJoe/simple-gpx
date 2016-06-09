@@ -59,7 +59,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var xml = builder.buildObject(result);
         //res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
         //zip content to be returned
-        var archive = archiver.create('zip', {});
+        var archive = archiver.create('zip', {name: 'phil'});
         archive.append(xml, {name: req.file.originalname});
         archive
                 .finalize()
