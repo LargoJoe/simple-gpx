@@ -61,9 +61,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         res.set('Content-Type', 'text/xml');
-
-
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
+        res.set('Content-Type', 'application/octet-stream');
+        res.set('Content - Encoding', 'gzip');
         zlib.gzip(xml, function (error, result) {
             if (error)
                 throw error;
