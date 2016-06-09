@@ -14,23 +14,23 @@ and open the template in the editor.
         <link href="/css/main.css?v=0.1" rel="stylesheet">
     </head>
     <body>
-        <div>
+        <div class="main">
+             <header> 
             <h1>Simplify GPX</h1>
-            <p>Select a GPX to be simplified</p>
+            </header>
+            
             <p>This application will simplify your GPX tracks to reduce the file size. It will use a combination of stripping out the height data and using the Ramer–Douglas–Peucker algorithm to
                reduce the number of track points to a tolerance you decide. The resulting file is returned as a
                zipped file.
                 </p>  
             <form id="gpx-simplify-form" method="post" enctype="multipart/form-data">
-               <p>How close do you wish the new track to align to the old track? A value of 10 metres
-               gives a good compromise between size of resulting file and how well
-               new track follows original.</p>
+               
                <select name="tolerance" id="tolerance">
                    <option value="1">1 metre</option>
-                   <option value="10" selected>10 metres</option>
-                    <option value="20">20 metres</option>
-                    <option value="50">50 metres</option>
-                   <option value="100">100 metres</option>
+                   <option value="10" selected>10 metres tolerance</option>
+                    <option value="20">20 metres tolerance</option>
+                    <option value="50">50 metres tolerance</option>
+                   <option value="100">100 metres tolerance</option>
                </select> 
                
                <input type="file" id="fileinput" name="fileinput" class="inputfile"/>

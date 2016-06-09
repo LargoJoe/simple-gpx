@@ -13,5 +13,11 @@
 	z-index: -1;
 }
 
-
+body {
+    background-color:#E1E1E1;
+}
+.main {
+    widtf: 90%;
+    background-color:#fff;
+}
 
