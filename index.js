@@ -57,7 +57,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
         var zip = new jszip();
         zip.file(req.file.originalname, xml);
-        res.send(zip.file(req.file.originalname));
+        res.send(zip);
     });
 });
 
