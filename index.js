@@ -1,7 +1,7 @@
 var express = require('express');
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
-var zip = new require('node-zip')();
+var zlib = require('zlib');
 
 var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
@@ -62,8 +62,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var xml = builder.buildObject(result);
         res.set('Content-Type', 'text/xml');
 
-        zip.file(req.file.originalname, xml);
-        var data = zip.generate({base64: false, compression: 'DEFLATE'});
+        var data = zlib.Gzip(xml);
+
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
         res.send(data);
 
