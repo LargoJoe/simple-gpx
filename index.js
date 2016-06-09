@@ -57,8 +57,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var zip = jszip();
         console.log(zip);
         zip.file(req.file.originalname, xml);
-        zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
-                .pipe(res);
+        zip.generateAsync()
+                .then(function (zipped_file) {
+                    res.send(zipped_file);
+                });
     });
 });
 app.listen(app.get('port'), function () {
