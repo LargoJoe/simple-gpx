@@ -1,7 +1,7 @@
 var express = require('express');
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
-var jszip = require('jszip');
+var jszip = require('./jszip');
 
 var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
