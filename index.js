@@ -57,13 +57,14 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         }
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
-        res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
+        //res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
         //zip content to be returned
         var archive = archiver.create('zip', {});
         archive.append(xml, {name: req.file.originalname});
-        archive.finalize();
-        archive.pipe(res);
-        res.send(xml);
+        archive
+                .finalize()
+                .pipe(res);
+        //res.send(xml);
 
     });
 });
