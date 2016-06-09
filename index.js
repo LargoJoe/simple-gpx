@@ -54,15 +54,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
+        res.send(xml);
 
-        var zip = jszip();
-
-        zip.file(req.file.originalname, xml);
-        zip.generateAsync({type: 'binarystring'})
-                .then(function (zipped_file) {
-                    console.log(zipped_file);
-                    res.send(zipped_file);
-                });
     });
 });
 app.listen(app.get('port'), function () {
