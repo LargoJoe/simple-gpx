@@ -30,7 +30,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
     parseString(gpx, function (err, result) {
         if (err) {
-            res.send(err);
+            res.send("That doesn't appear to be a GPX file. Use the back arrow and select a valid GPX.");
             return;
         }
         var tracks = result.gpx.trk;
