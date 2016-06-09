@@ -45,7 +45,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  * this trkseg
                  */
 
-                var tolerance = req.body.tolerance * metre(pts[0].lat);
+                var tolerance = req.body.tolerance / metre(pts[0].lat);
                 console.log(metre(pts[0].lat));
 
                 var simple_pts = simplify(pts, tolerance);
@@ -74,6 +74,7 @@ app.listen(app.get('port'), function () {
 });
 
 function metre(lat) {
+    // metres per degree of latitude
     rlat = lat * Math.PI / 180;
     return 111132.92 - 559.82 * Math.cos(2 * rlat) + 1.175 * Math.cos(4 * rlat);
 
