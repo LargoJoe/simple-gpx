@@ -1,6 +1,10 @@
 var express = require('express');
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
+
+var parseString = xml2js.parseString;
+var builder = new xml2js.Builder();
+
 var simplify = require('./simplify.js');
 
 
@@ -19,9 +23,9 @@ app.use(express.static(__dirname + '/public'));
 
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
-    var parseString = xml2js.parseString;
 
-    var simple_pts = [];
+
+
     parseString(gpx, function (err, result) {
         var tracks = result.gpx.trk;
         var t = tracks.length;
@@ -35,15 +39,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
-
                 }
-
-                simple_pts = simple_pts.concat(pts);
+                var simple_pts = simplify(pts, 0.00009);
+                result.gpx.trk[i].trkseg[j].trkpt = simple_pts;
 
             }
         }
-        var p = simplify(simple_pts, 0.00009);
-        res.send(p);
+
+        var xml = builder.buildObject(result);
+
+        res.send(xml);
         //var trk = result.gpx.trk[0].trkseg[0].trkpt[1].$;
 
         //res.send(trk);
