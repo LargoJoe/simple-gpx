@@ -58,7 +58,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var zip = jszip();
 
         zip.file(req.file.originalname, xml);
-        zip.generateAsync({type: base64})
+        zip.generateAsync({type: 'base64'})
                 .then(function (zipped_file) {
                     console.log(zipped_file);
                     res.send(zipped_file);
