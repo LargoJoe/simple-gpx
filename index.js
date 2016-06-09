@@ -54,10 +54,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
+
         var zip = jszip();
         console.log(zip);
         zip.file(req.file.originalname, xml);
-        zip.generateAsync()
+        zip.generateAsync({type: base64})
                 .then(function (zipped_file) {
                     res.send(zipped_file);
                 });
