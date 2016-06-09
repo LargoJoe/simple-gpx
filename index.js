@@ -48,6 +48,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         res.set('Content-Type', 'text/xml');
+        res.set('Content-Disposition', 'attachment; filename=' + req.file.name);
         res.send(xml);
         //var trk = result.gpx.trk[0].trkseg[0].trkpt[1].$;
 
