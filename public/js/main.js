@@ -10,8 +10,9 @@ $(document).ready(function () {
             });
     $('#tolerance').on('change',
             function (e) {
-                alert($('#fileinput').val());
-                $('#gpx-simplify-form').submit();
+                if $('#fileinput').val().length > 0) {
+                    $('#gpx-simplify-form').submit();
+                }
             });
 });
 
