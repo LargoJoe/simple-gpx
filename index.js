@@ -71,7 +71,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * Split track
              */
             if (req.body.splittrk = "yes") {
-                delete result.gpx.trk[i];
+                //delete result.gpx.trk[i];
 
                 var split_length = req.body.splitlength * 1000;
                 var accumulated_lengths = accumulatedLengths(simple_pts);
