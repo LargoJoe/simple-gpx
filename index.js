@@ -72,13 +72,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              */
             if (req.body.splittrk = "yes") {
                 delete result.gpx.trk[i];
-                console.log(req.body);
+
                 var split_length = req.body.splitlength * 1000;
                 var accumulated_lengths = accumulatedLengths(simple_pts);
                 var total_length = accumulated_lengths [accumulated_lengths.length - 1];
                 // Don't bother splitting if total length isn't 10% or more longer than
                 // split length
-                console.log(total_length + ' ' + split_length);
+
                 if (total_length > split_length * 1.10) {
                     delete result.gpx.trk[i];
                     var split_name = req.body.splitname = "" ? "trk" : req.body.splitname;
@@ -95,7 +95,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             trk.name = trk_name;
                             trk.trkseg[0] = {};
                             trk.trkseg[0].trkpt = trkpts;
-
+                            console.log(trk);
                             result.gpx.trk.push(trk);
                         }
                     }
