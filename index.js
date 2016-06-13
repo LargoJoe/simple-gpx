@@ -97,7 +97,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             trk.trkseg = [];
                             trk.trkseg[0] = {};
                             trk.trkseg[0].trkpt = trkpts;
-                            console.log(trk.trkseg[0].trkpt);
+                            console.log(JSON.stringify(trk.trkseg[0]));
                             result.gpx.trk.push(trk);
                         }
                     }
