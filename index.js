@@ -44,24 +44,35 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
                 }
-                /*
-                 * Simplify and replace trkpoints with simplified trkpoints for
-                 * this trkseg
-                 */
 
-                var tolerance = req.body.tolerance / metre(pts[0].lat);
-                var simple_pts = simplify(pts, tolerance);
-                var formatted_pts = [];
-                for (var l = 0; l < simple_pts.length; ++l) {
-                    formatted_pts[l] = {};
-                    formatted_pts[l].$ = simple_pts[l];
-                }
-                result.gpx.trk[i].trkseg[j].trkpt = formatted_pts;
             }
+            // Delete all the trksegs
+            for (var t = 0; t < trksegs.length; ++t) {
+                delete result.gpx.trk[i].trkseg[t];
+            }
+
+
+            /*
+             * Simplify and replace trkpoints with simplified trkpoints for
+             * this trk
+             */
+
+            var tolerance = req.body.tolerance / metre(pts[0].lat);
+            var simple_pts = simplify(pts, tolerance);
+            var formatted_pts = [];
+            for (var l = 0; l < simple_pts.length; ++l) {
+                formatted_pts[l] = {};
+                formatted_pts[l].$ = simple_pts[l];
+            }
+
+            result.gpx.trk[i].trkseg[0] = {}
+            result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
+
+
         }
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
-        //res.set('Content-Disposition', 'attachment; filename=' + 'gpx.zip');
+
         //zip content to be returned
         var archive = archiver.create('zip', {name: 'phil'});
         var filename = req.file.originalname.substr(0, req.file.originalname.length - 4) + '.zip';
