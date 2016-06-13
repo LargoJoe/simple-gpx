@@ -34,7 +34,15 @@ and open the template in the editor.
                     <option value="20">20 metres tolerance</option>
                     <option value="50">50 metres tolerance</option>
                    <option value="100">100 metres tolerance</option>
-               </select> 
+               </select>
+                 <input type="checkbox" name="splittrk" value="yes" >Split track?
+                  <select name="splitdistance" id="splitdistance">
+                 
+                   <option value="50">50 km</option>
+                   <option value="100" selected>100 km</option>
+                    <option value="200">200 km</option>
+                   
+               </select>
                
                <input type="file" id="fileinput" name="fileinput" class="inputfile"/>
                <label for="fileinput" class="button button-primary">Choose a GPX file</label>
