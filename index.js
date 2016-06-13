@@ -79,6 +79,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 // split length
 
                 if (total_length > split_length * 1.10) {
+                    console.log(result.gpx.trk[i].extensions);
                     delete result.gpx.trk[i];
                     console.log(req.body.splitname);
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
