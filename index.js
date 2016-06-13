@@ -93,6 +93,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             ++splits;
                             var trk = {};
                             trk.name = trk_name;
+                            trk.trkseg = [];
                             trk.trkseg[0] = {};
                             trk.trkseg[0].trkpt = trkpts;
                             console.log(trk);
