@@ -77,13 +77,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var total_length = accumulated_lengths [accumulated_lengths.length - 1];
                 // Don't bother splitting if total length isn't 10% or more longer than
                 // split length
-                console.log(accumulated_lengths);
+                console.log(total_length);
                 if (total_length > split_length * 1.10) {
                     delete result.gpx.trk[i];
                     var split_name = req.body.splitname = "" ? "trk" : req.body.splitname;
                     var last_split = 0;
                     var splits = 1;
-                    console.log(accumulated_lengths.length);
+
                     for (var l = 0; l < accumulated_lengths.length; ++l) {
                         if (accumulated_lengths [l] > split_length * splits) {
                             var trkpts = formatted_pts.slice(last_split, l);
