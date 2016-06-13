@@ -70,6 +70,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
         }
+
+
+
+
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
 
@@ -93,3 +97,35 @@ function metre(lat) {
     rlat = lat * Math.PI / 180;
     return 111132.92 - 559.82 * Math.cos(2 * rlat) + 1.175 * Math.cos(4 * rlat);
 }
+
+function accumulatedLengths(coords) {
+    if (coords.length === 0)
+        return [];
+    var total = 0,
+            lengths = [0];
+    for (var i = 0, n = coords.length - 1; i < n; i++) {
+        total += distance(coords[i], coords[i + 1]);
+        lengths.push(total);
+    }
+    return lengths;
+}
+
+function distance(coord1, coord2) {
+    var lat1 = coord1.lat;
+    var lng1 = coord1.lng;
+    var lat2 = coord2.lat;
+    var lng2 = coord2.lng;
+
+    var radlat1 = Math.PI * lat1 / 180;
+    var radlat2 = Math.PI * lat2 / 180;
+    var theta = lng1 - lng2;
+    var radtheta = Math.PI * theta / 180;
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1609.344;
+
+    return dist;
+}
+
