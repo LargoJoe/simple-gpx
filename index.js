@@ -156,13 +156,13 @@ function accumulatedLengths(coords) {
 
 function distance(coord1, coord2) {
     var lat1 = coord1.lat;
-    var lng1 = coord1.lng;
+    var lon1 = coord1.lon;
     var lat2 = coord2.lat;
-    var lng2 = coord2.lng;
+    var lon2 = coord2.lon;
 
     var radlat1 = Math.PI * lat1 / 180;
     var radlat2 = Math.PI * lat2 / 180;
-    var theta = lng1 - lng2;
+    var theta = lon1 - lon2;
     var radtheta = Math.PI * theta / 180;
     var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     dist = Math.acos(dist);
