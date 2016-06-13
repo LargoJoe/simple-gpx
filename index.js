@@ -82,15 +82,17 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var split_name = req.body.splitname = "" ? "trk" : req.body.splitname;
                     var last_split = 0;
                     var splits = 1;
-                    for (var l = 0; l < accumulated_length; ++l) {
+                    for (var l = 0; l < accumulated_lengths.length; ++l) {
                         if (accumulated_lengths [l] > split_length * splits) {
                             var trkpts = formatted_pts.slice(last_split, l);
                             last_split = l;
                             var trk_name = split_name + '-' + splits;
+                            ++splits;
                             var trk = {};
                             trk.name = trk_name;
                             trk.trkseg[0] = {};
                             trk.trkseg[0].trkpt = trkpts;
+
                             result.gpx.trk.push(trk);
                         }
                     }
