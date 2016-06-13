@@ -81,6 +81,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 if (total_length > split_length * 1.10) {
                     delete result.gpx.trk[i];
+                    console.log(req.body.splitname);
                     var split_name = req.body.splitname = "" ? "trk" : req.body.splitname;
                     var last_split = 0;
                     var splits = 1;
@@ -96,7 +97,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             trk.trkseg = [];
                             trk.trkseg[0] = {};
                             trk.trkseg[0].trkpt = trkpts;
-                            console.log(trk);
+                            console.log(trk.trkseg[0].trkpt);
                             result.gpx.trk.push(trk);
                         }
                     }
