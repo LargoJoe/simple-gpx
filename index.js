@@ -67,10 +67,50 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             result.gpx.trk[i].trkseg[0] = {}
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
+            /*
+             * Split track
+             */
+            if (req.body.splittrk = "yes") {
+                delete result.gpx.trk[i];
+                var split_length = req.body.splitlength;
+                var accumulated_lengths = accumulatedLengths(formatted_pts);
+                var total_length = accumulated_lengths [accumulated_lengths.length - 1];
+                // Don't bother splitting if total length isn't 10% or more longer than
+                // split length
+                if (total_length > split_length * 1.10) {
+                    delete result.gpx.trk[i];
+                    var split_name = req.body.splitname = "" ? "trk" : req.body.splitname;
+                    var last_split = 0;
+                    var splits = 1;
+                    for (var l = 0; l < accumulated_length; ++l) {
+                        if (accumulated_lengths [l] > split_length * splits) {
+                            var trkpts = formatted_pts.slice(last_split, l);
+                            last_split = l;
+                            var trk_name = split_name + '-' + splits;
+                            var trk = {};
+                            trk.name = trk_name;
+                            trk.trkseg[0] = {};
+                            trk.trkseg[0].trkpt = trkpts;
+                            result.gpx.trk.push(trk);
+                        }
+                    }
+                    var trkpts = formatted_pts.slice(last_split, formatted_pts.length);
+                    var trk_name = split_name + '-' + splits;
+                    var trk = {};
+                    trk.name = trk_name;
+                    trk.trkseg[0] = {};
+                    trk.trkseg[0].trkpt = trkpts;
+                    result.gpx.trk.push(trk);
+
+                }
+
+
+            }
+
+
 
 
         }
-
 
 
 
