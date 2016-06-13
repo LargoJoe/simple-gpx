@@ -22,12 +22,13 @@ and open the template in the editor.
             <p>This application will simplify your GPX tracks to reduce the file size. It will use a combination of stripping out any elevation and time data and using the Ramer–Douglas–Peucker algorithm to
                reduce the number of track points to a tolerance you decide. Once the GPX is chosen, it will automatically be submitted for processing. A zipped file will be returned containing your slimmed down GPX file. 
                
-                </p>  
-                 <p>A 10 metre tolerance gives a good balance between the resulting file size and how closely the new
-                GPX track follows the original. Changing the tolerance will generate a new zipped file and GPX.</p>
-                 <p>Optionally you may also split a long track in shorter tracks. If you do not provide a
+                </p>
+                <p>Optionally you may also split a long track in shorter tracks. If you do not provide a
                  track prefix when spplitting then it will default to Track, so your tracks will be named
                  Track-1, Track-2 etc. Note the tracks will still be returned in a single zipped GPX file</p>
+                 <p>A 10 metre tolerance gives a good balance between the resulting file size and how closely the new
+                GPX track follows the original. Changing the tolerance will generate a new zipped file and GPX.</p>
+                 
                      
                  <form id="gpx-simplify-form" method="post" enctype="multipart/form-data">
                
