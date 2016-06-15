@@ -147,7 +147,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
-
+        xml = xml.replace(/&#xD;/g, '');
         //zip content to be returned
         var archive = archiver.create('zip', {name: 'phil'});
         var filename = req.file.originalname.substr(0, req.file.originalname.length - 4) + '.zip';
