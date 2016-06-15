@@ -120,6 +120,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var trk_name = split_name + '-' + splits;
                     var trk = {};
                     trk.name = trk_name;
+                    if (typeof extensions === 'object') {
+                        trk.extensions = extensions;
+                    }
                     trk.trkseg = [];
                     trk.trkseg[0] = {};
                     trk.trkseg[0].trkpt = trkpts;
