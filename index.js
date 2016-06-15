@@ -42,10 +42,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             return;
         }
 
-        console.log(JSON.stringify(result.gpx));
 
 
-        result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com ";
+
+        result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
         var tracks = result.gpx.trk;
         var t = tracks.length;
 
