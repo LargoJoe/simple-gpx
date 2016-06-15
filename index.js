@@ -109,7 +109,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         if (accumulated_lengths [l] > split_length * splits) {
                             var trkpts = formatted_pts.slice(last_split, l);
                             last_split = l - 1;
-                            var trk_name = split_name + '-' + splits;
+                            var trk_name = split_name + '-' + tl > 1 ? '-' + i + '-' : '' + splits;
+
                             splits++;
                             var trk = {};
 
