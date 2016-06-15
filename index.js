@@ -50,7 +50,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var t = tracks.length;
 
 
-        for (var i = 0; i < tracks.length; ++i) {
+        for (var i = 0, tl = tracks.length; i < tl; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
                 var trkpts = trksegs[j].trkpt;
@@ -160,7 +160,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         archive
                 .finalize()
                 .pipe(res);
-        //res.send(xml);
+
 
     });
 });
