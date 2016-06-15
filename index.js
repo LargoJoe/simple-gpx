@@ -15,7 +15,7 @@ var simplify = require('./simplify.js');
 
 var storage = multer.memoryStorage();
 var upload = multer({storage: storage});
-var splits = 1;
+
 
 var app = express();
 
@@ -101,6 +101,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
+                    var splits = 1;
 
 
 
@@ -124,7 +125,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         }
                     }
                     var trkpts = formatted_pts.slice(last_split, formatted_pts.length);
-                    var trk_name = split_name + '-' + splits;
+                    var trk_name = split_name + '-' + tl > 1 ? '-' + i + '-' : '' + splits;
                     var trk = {};
                     trk.name = trk_name;
                     if (typeof extensions === 'object') {
