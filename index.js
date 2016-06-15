@@ -33,6 +33,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             res.send("That doesn't appear to be a GPX file. Use the back arrow and select a valid GPX.");
             return;
         }
+        if (!result.hasOwnProperty('gpx')) {
+            res.send("That doesn't appear to be a GPX file. Use the back arrow and select a valid GPX.");
+            return;
+        }
+        if (!result.gpx.hasOwnProperty('trk')) {
+            res.send("The GPX file doesn't appear to contain a track. Use the back arrow and select another GPX.");
+            return;
+        }
+
+
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com ";
         var tracks = result.gpx.trk;
         var t = tracks.length;
