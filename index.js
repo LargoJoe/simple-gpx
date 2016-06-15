@@ -110,13 +110,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             var trkpts = formatted_pts.slice(last_split, l);
                             last_split = l - 1;
 
-                            if (tl > 1) {
-                                trkno = i + '-'
-                            } else
-                            {
-                                trkno = ''
-                            }
-                            var trk_name = split_name + '-' + trkno + splits;
+                            var trk_name = split_name + '-' + splits;
 
                             splits++;
                             var trk = {};
@@ -133,7 +127,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         }
                     }
                     var trkpts = formatted_pts.slice(last_split, formatted_pts.length);
-                    var trk_name = split_name + '-' + tl > 1 ? '-' + i + '-' : '' + splits;
+                    var trk_name = split_name + splits;
                     var trk = {};
                     trk.name = trk_name;
                     if (typeof extensions === 'object') {
