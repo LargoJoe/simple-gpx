@@ -109,7 +109,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             var trkpts = formatted_pts.slice(last_split, l);
                             last_split = l - 1;
                             var trk_name = split_name + '-' + splits;
-                            ++splits;
+                            splits++;
                             var trk = {};
 
                             trk.name = trk_name;
