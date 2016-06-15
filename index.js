@@ -49,6 +49,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var tracks = result.gpx.trk;
         var t = tracks.length;
 
+        if (typeof splits === 'undefined') {
+            var splits = 1;
+        }
 
         for (var i = 0, tl = tracks.length; i < tl; ++i) {
             var trksegs = tracks[i].trkseg;
@@ -101,10 +104,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
-                    console.log(splits);
-                    if (typeof splits === 'undefined') {
-                        var splits = 1;
-                    }
+
 
                     for (var l = 0; l < accumulated_lengths.length; ++l) {
                         if (accumulated_lengths [l] > split_length * splits) {
