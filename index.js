@@ -101,7 +101,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
-                    if (typeof splits !== 'undefined') {
+                    if (typeof splits === 'undefined') {
                         var splits = 1;
                     }
 
