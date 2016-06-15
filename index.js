@@ -15,7 +15,7 @@ var simplify = require('./simplify.js');
 
 var storage = multer.memoryStorage();
 var upload = multer({storage: storage});
-
+var splits = 1;
 
 var app = express();
 
@@ -47,7 +47,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
         var tracks = result.gpx.trk;
-        var splits = 1;
+
         var tl = tracks.length;
 
         for (var i = 0; i < tl; ++i) {
