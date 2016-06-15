@@ -127,7 +127,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         }
                     }
                     var trkpts = formatted_pts.slice(last_split, formatted_pts.length);
-                    var trk_name = split_name + splits;
+                    var trk_name = split_name + '-' + splits;
                     var trk = {};
                     trk.name = trk_name;
                     if (typeof extensions === 'object') {
