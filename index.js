@@ -46,7 +46,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com ";
         var tracks = result.gpx.trk;
         var t = tracks.length;
-        var splits = 1;
+
         for (var i = 0; i < tracks.length; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
@@ -58,6 +58,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
 
             }
+            var splits = 1;
             // Delete all the trksegs
             for (var t = 0; t < trksegs.length; ++t) {
                 delete result.gpx.trk[i].trkseg[t];
