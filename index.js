@@ -46,6 +46,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com ";
         var tracks = result.gpx.trk;
         var t = tracks.length;
+        var splits = 1;
         for (var i = 0; i < tracks.length; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
@@ -83,6 +84,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              */
             if (req.body.splittrk === "yes") {
 
+
                 var split_length = req.body.splitlength * 1000;
                 var accumulated_lengths = accumulatedLengths(simple_pts);
                 var total_length = accumulated_lengths [accumulated_lengths.length - 1];
@@ -95,7 +97,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
-                    var splits = 1;
+
 
                     for (var l = 0; l < accumulated_lengths.length; ++l) {
                         if (accumulated_lengths [l] > split_length * splits) {
