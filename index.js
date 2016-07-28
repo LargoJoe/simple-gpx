@@ -59,7 +59,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
                 }
-                console.log(trkpts.length);
+
 
             }
 
@@ -76,6 +76,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             var tolerance = req.body.tolerance / metre(pts[0].lat);
             var simple_pts = simplify(pts, tolerance);
+            console.log(simple_pts.length);
             var formatted_pts = [];
             for (var l = 0; l < simple_pts.length; ++l) {
                 formatted_pts[l] = {};
