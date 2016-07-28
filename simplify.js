@@ -105,8 +105,9 @@
         var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
         points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
+        console.log(points.length);
         points = simplifyDouglasPeucker(points, sqTolerance);
-
+        console.log(points.length);
         return points;
     }
 
