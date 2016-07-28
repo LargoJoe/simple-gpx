@@ -68,7 +68,7 @@
 
         for (var i = first + 1; i < last; i++) {
             var sqDist = getSqSegDist(points[i], points[first], points[last]);
-
+            console.log(sqDist);
             if (sqDist > maxSqDist) {
                 index = i;
                 maxSqDist = sqDist;
@@ -105,9 +105,9 @@
         var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
         points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
-        console.log(points.length);
+
         points = simplifyDouglasPeucker(points, sqTolerance);
-        console.log(points.length);
+
         return points;
     }
 
