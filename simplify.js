@@ -35,7 +35,10 @@
 
         var denominator = Math.pow(dy, 2) + Math.pow(dx, 2);
 
-        if (p === p1 | p === p2) {
+        if (p.lat === p1.lat && p.lon === p1.lon) {
+            return 0;
+        }
+        if (p.lat === p2.lat && p.lon === p2.lon) {
             return 0;
         }
 
