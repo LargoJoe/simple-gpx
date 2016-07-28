@@ -59,6 +59,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pts.push(pt);
                 }
+                console.log(trkpts.length);
 
             }
 
