@@ -35,9 +35,14 @@
 
         var denominator = Math.pow(dy, 2) + Math.pow(dx, 2);
 
+        if (p === p1 | p === p2) {
+            return 0;
+        }
+
         if (numerator === 0 | denominator === 0) {
             return 10;
         }
+
 
 
 
@@ -70,7 +75,7 @@
     function simplifyDPStep(points, first, last, sqTolerance, simplified) {
         var maxSqDist = sqTolerance,
                 index;
-        console.log(maxSqDist);
+
         for (var i = first + 1; i < last; i++) {
             var sqDist = getSqSegDist(points[i], points[first], points[last]);
 
