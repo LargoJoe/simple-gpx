@@ -32,7 +32,9 @@
                 y0 = p.lat;
 
         var numerator = Math.pow(dy * x0 - dx * y0 + x2 * y1 - y2 * x1, 2);
+        console.log(numerator);
         var denominator = Math.pow(dy, 2) + Math.pow(dx, 2);
+        console.log(denominator);
 
 
 
@@ -68,7 +70,7 @@
 
         for (var i = first + 1; i < last; i++) {
             var sqDist = getSqSegDist(points[i], points[first], points[last]);
-            console.log(sqDist);
+
             if (sqDist > maxSqDist) {
                 index = i;
                 maxSqDist = sqDist;
