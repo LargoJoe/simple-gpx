@@ -57,6 +57,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var pts = [];
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
+                    pt.lat = pt.lat.toPrecision(7);
+                    pt.lon = pt.lon.toPrecision(7);
                     pts.push(pt);
                 }
 
