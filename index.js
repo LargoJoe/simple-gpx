@@ -60,11 +60,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pt.lat = math.round(pt.lat, 5);
                     pt.lon = math.round(pt.lon, 5);
-                    if (req.body.timestamp == 'yes') {
+                    if (req.body.timestamp === "yes") {
                         var timestamp = trkpts[k].time;
                         pt.time = timestamp;
                     }
-                    if (req.body.elevation == 'yes') {
+                    if (req.body.elevation === "yes") {
                         var elevation = trkpts[k].ele;
                         pt.ele = math.round(elevation);
                     }
