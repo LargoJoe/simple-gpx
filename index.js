@@ -11,6 +11,7 @@ var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
 
 var simplify = require('./simplify.js');
+var math = require('./math.min.js');
 
 
 var storage = multer.memoryStorage();
@@ -57,8 +58,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var pts = [];
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
-                    pt.lat = pt.lat.toFixed(7);
-                    pt.lon = pt.lon.toFixed(7);
+                    pt.lat = math.round(pt.lat, 6);
+                    pt.lon = math.round(pt.lon, 6);
                     pts.push(pt);
                 }
 
