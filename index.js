@@ -92,6 +92,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             var formatted_pts = [];
             for (var l = 0; l < simple_pts.length; ++l) {
                 formatted_pts[l] = {};
+                formatted_pts[l].$ = {};
 
                 formatted_pts[l].$.lat = simple_pts[l].lat;
                 formatted_pts[l].$.lon = simple_pts[l].lon;
