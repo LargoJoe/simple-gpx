@@ -60,6 +60,15 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pt.lat = math.round(pt.lat, 5);
                     pt.lon = math.round(pt.lon, 5);
+                    if (req.body.timestamp == 'yes') {
+                        var timestamp = trkpts[k].time;
+                        pt.time = timestamp;
+                    }
+                    if (req.body.elevation == 'yes') {
+                        var elevation = trkpts[k].ele;
+                        pt.ele = math.round(elevation);
+                    }
+
                     pts.push(pt);
                 }
 
@@ -83,7 +92,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             var formatted_pts = [];
             for (var l = 0; l < simple_pts.length; ++l) {
                 formatted_pts[l] = {};
-                formatted_pts[l].$ = simple_pts[l];
+
+                formatted_pts[l].$.lat = simple_pts[l].lat;
+                formatted_pts[l].$.lon = simple_pts[l].lon;
+                if (simple_pts[l].time) {
+                    formatted_pts[l].time = simple_pts[l].time;
+                }
+                if (simple_pts[l].ele) {
+                    formatted_pts[l].ele = simple_pts[l].ele;
+                }
+
             }
 
             result.gpx.trk[i].trkseg[0] = {}
