@@ -32,7 +32,6 @@
         var x1 = p1.lon,
                 y1 = p1.lat,
                 z1 = (p1.ele_z === undefined) ? 0 : p1.ele_z,
-                // point 2
                 x2 = p2.lon,
                 y2 = p2.lat,
                 z2 = (p2.ele_z === undefined) ? 0 : p2.ele_z,
