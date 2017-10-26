@@ -25,9 +25,27 @@
 
         return dx * dx + dy * dy + dz * dz;
     }
+// Square of the distance of a point from a line
+    function getSqSegDist(p, p1, p2) {
+        // Get the lengths of the three sides of the triangle
+        var A = Math.sqrt(getSqDist(p1, p2));
+        var B = Math.sqrt(getSqDist(p, p1));
+        var C = Math.sqrt(getSqDist(p, p2));
+        if (A === 0 || B === 0 || C === 0) {
+            return 0;
+        }
+        // Calculate area of triangle using Heron's formula.
+        var S = (A + B + C) / 2;
+        var Area = Math.sqrt(S * (S - A) * (S - B) * (S - C));
+
+        // Square of the distance
+        return Math.pow(2 * Area / A, 2);
+
+    }
+
 
 // square distance from a point to a segment
-    function getSqSegDist(p, p1, p2) {
+    function getSqSegDistOrig(p, p1, p2) {
 
         var x1 = p1.lon,
                 y1 = p1.lat,
