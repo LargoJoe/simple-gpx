@@ -14,9 +14,10 @@
     function getSqDist(p1, p2) {
 
         var dx = p1.lat - p2.lat,
-                dy = p1.lon - p2.lon;
+                dy = p1.lon - p2.lon,
+                dz = p1.ele_z - p2.ele_z;
 
-        return dx * dx + dy * dy;
+        return dx * dx + dy * dy + dz * dz;
     }
 
 // square distance from a point to a segment
@@ -24,16 +25,27 @@
 
         var x1 = p1.lon,
                 y1 = p1.lat,
+                z1 = p1.ele_z || 0,
                 x2 = p2.lon,
                 y2 = p2.lat,
-                dx = x2 - x1,
+                z2 = p2.ele_z || 0
+
+        dx = x2 - x1,
                 dy = y2 - y1,
+                dz = z2 - z1,
                 x0 = p.lon,
-                y0 = p.lat;
+                y0 = p.lat,
+                z0 = p.ele_z || 0;
 
-        var numerator = Math.pow(dy * x0 - dx * y0 + x2 * y1 - y2 * x1, 2);
+        var D2 = dy * x0 - dx * y0 + x2 * y1 - y2 * x1;
+        var D3 = dy * x0 - dx * y0 + x2 * y1 - y2 * x1 +
+                dz * x0 - dx * z0 + x2 * z1 - z2 * x1 +
+                dz * y0 - dy * z0 + y2 * z1 - z2 * y1;
 
-        var denominator = Math.pow(dy, 2) + Math.pow(dx, 2);
+
+        var numerator = Math.pow(D3, 2);
+
+        var denominator = Math.pow(dy, 2) + Math.pow(dx, 2) + +Math.pow(dz, 2);
 
         if (p.lat === p1.lat && p.lon === p1.lon) {
             return 0;

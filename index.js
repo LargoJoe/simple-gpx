@@ -51,6 +51,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         var tl = tracks.length;
 
+
+
         for (var i = 0; i < tl; ++i) {
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
@@ -64,6 +66,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     if (req.body.elevation === "yes") {
                         var elevation = trkpts[k].ele;
                         pt.ele = math.round(elevation);
+                        pt.ele_z = math.round(elevation) / metre(pt.lat);
                     }
 
                     if (req.body.timestamp === "yes") {
