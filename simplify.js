@@ -45,7 +45,7 @@
 
         var numerator = Math.pow(D3, 2);
 
-        var denominator = Math.pow(dy, 2) + Math.pow(dx, 2) + +Math.pow(dz, 2);
+        var denominator = Math.pow(dy, 2) + Math.pow(dx, 2) + Math.pow(dz, 2);
 
         if (p.lat === p1.lat && p.lon === p1.lon) {
             return 0;
