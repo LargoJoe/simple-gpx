@@ -14,8 +14,14 @@
     function getSqDist(p1, p2) {
 
         var dx = p1.lat - p2.lat,
-                dy = p1.lon - p2.lon,
-                dz = p1.ele_z - p2.ele_z;
+                dy = p1.lon - p2.lon;
+
+        if (p1.ele_z === undefined) {
+            dz = 0;
+        } else {
+            dz = p1.ele_z - p2.ele_z;
+        }
+
 
         return dx * dx + dy * dy + dz * dz;
     }
