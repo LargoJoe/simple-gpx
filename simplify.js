@@ -25,18 +25,18 @@
 
         var x1 = p1.lon,
                 y1 = p1.lat,
-                z1 = p1.ele_z === undefined ? 0 : p1.ele_z;
+                z1 = (p1.ele_z === undefined) ? 0 : p1.ele_z;
         // point 2
         x2 = p2.lon,
                 y2 = p2.lat,
-                z2 = p2.ele_z === undefined ? 0 : p2.ele_z;
+                z2 = (p2.ele_z === undefined) ? 0 : p2.ele_z;
 
         dx = x2 - x1,
                 dy = y2 - y1,
                 dz = z2 - z1,
                 x0 = p.lon,
                 y0 = p.lat,
-                z0 = p.ele_z === undefined ? 0 : p.ele_z;
+                z0 = (p.ele_z === undefined) ? 0 : p.ele_z;
 
         var D2 = dy * x0 - dx * y0 + x2 * y1 - y2 * x1;
         var D3 = dy * x0 - dx * y0 + x2 * y1 - y2 * x1 +
