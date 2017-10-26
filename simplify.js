@@ -25,13 +25,12 @@
 
         var x1 = p1.lon,
                 y1 = p1.lat,
-                z1 = (p1.ele_z === undefined) ? 0 : p1.ele_z;
-        // point 2
-        x2 = p2.lon,
+                z1 = (p1.ele_z === undefined) ? 0 : p1.ele_z,
+                // point 2
+                x2 = p2.lon,
                 y2 = p2.lat,
-                z2 = (p2.ele_z === undefined) ? 0 : p2.ele_z;
-
-        dx = x2 - x1,
+                z2 = (p2.ele_z === undefined) ? 0 : p2.ele_z,
+                dx = x2 - x1,
                 dy = y2 - y1,
                 dz = z2 - z1,
                 x0 = p.lon,
