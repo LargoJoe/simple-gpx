@@ -49,12 +49,15 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
         var tracks = result.gpx.trk;
 
-
         var tl = tracks.length;
 
 
-
         for (var i = 0; i < tl; ++i) {
+
+            if (typeof esult.gpx.trk[i].extensions != "undefined")
+            {
+                delete result.gpx.trk[i].extensions;
+            }
             var trksegs = tracks[i].trkseg;
             for (var j = 0; j < trksegs.length; ++j) {
                 var trkpts = trksegs[j].trkpt;
@@ -81,10 +84,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
             }
-            // Delete extensions
-            if (result.gpx.trk[i].extensions) {
-                delete result.gpx.trk[i].extensions
-            }
+
 
             // Delete all the trksegs
             for (var t = 0; t < trksegs.length; ++t) {
@@ -123,7 +123,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             var track_string = JSON.stringify(formatted_pts);
             hmac.update(track_string);
             var cmt = "HMAC Digest: " + hmac.digest('hex');
-            result.gpx.trk[i].$.cmt = cmt;
+            result.gpx.trk[i].cmt = cmt;
 
             result.gpx.trk[i].trkseg[0] = {};
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
