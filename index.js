@@ -81,6 +81,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
             }
+            // Delete extensions
+            if (result.gpx.trk[i].extensions) {
+                delete result.gpx.trk[i].extensions
+            }
 
             // Delete all the trksegs
             for (var t = 0; t < trksegs.length; ++t) {
