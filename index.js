@@ -124,6 +124,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             hmac.update(track_string);
             var cmt = 'HMAC Digest: ' + hmac.digest('base64');
             result.gpx.trk[i].cmt = cmt;
+            console.log(JSON.stringify(result.gpx.trk[i]));
 
             result.gpx.trk[i].trkseg[0] = {};
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
