@@ -123,7 +123,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             var track_string = JSON.stringify(formatted_pts);
             hmac.update(track_string);
             var cmt = "HMAC Digest: " + hmac.digest('hex');
-            result.gpx.trk[i].cmt = cmt;
+            result.gpx.trk[i].cmt = "hello";
 
             result.gpx.trk[i].trkseg[0] = {};
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
