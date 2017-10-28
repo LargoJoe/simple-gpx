@@ -5,7 +5,7 @@ var xml2js = require('xml2js');
 
 var archiver = require('archiver'); // zip files
 
-
+var crypto = require('crypto');
 
 var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
@@ -116,6 +116,12 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             result.gpx.trk[i].trkseg[0] = {}
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
+            var hmac = crypto.createHmac('sha256', 'This is not a phrase you will guess');
+            var track_string = JSON.stringify(formatted_pts);
+            hmac.update(track_string);
+            var cmt = "HMAC Digest:" + hmac.digest('hex');
+            result.gpx.trk[i].cmt = cmt;
+
             /*
              * Split track
              */
