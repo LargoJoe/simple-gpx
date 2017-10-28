@@ -54,7 +54,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         for (var i = 0; i < tl; ++i) {
 
-            if (typeof esult.gpx.trk[i].extensions != "undefined")
+            if (typeof result.gpx.trk[i].extensions != "undefined")
             {
                 delete result.gpx.trk[i].extensions;
             }
