@@ -48,11 +48,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
         var tracks = result.gpx.trk;
-        var hmac = crypto.createHmac('sha256', 'This is not a phrase you will guess');
-        var track_string = JSON.stringify(formatted_pts);
-        hmac.update(track_string);
-        var cmt = "HMAC Digest: " + hmac.digest('hex');
-        result.gpx.trk[i].cmt = cmt;
+
 
         var tl = tracks.length;
 
@@ -118,6 +114,12 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
             }
+
+            var hmac = crypto.createHmac('sha256', 'This is not a phrase you will guess');
+            var track_string = JSON.stringify(formatted_pts);
+            hmac.update(track_string);
+            var cmt = "HMAC Digest: " + hmac.digest('hex');
+            result.gpx.trk[i].cmt = cmt;
 
             result.gpx.trk[i].trkseg[0] = {}
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
