@@ -91,25 +91,25 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var tolerance_metres = 10;
                 var tolerance = tolerance_metres / metre(pts[0].lat); // try 10 metres to start
-                if (pts.length < input_tolerance) {
-                    var loop = false;
-                } else
-                {
-                    var loop = true;
+                var loop = true;
+
+                if (pts.length <= input_tolerance) {
+                    simple_pts = pts;
+                    loop = false;
                 }
 
 
-                do {
+                while (loop === true) {
                     simple_pts = simplify(pts, tolerance);
 
-                    if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.9)
+                    if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.98)
                     {
                         tolerance = tolerance * simple_pts.length / input_tolerance;
                     } else
                     {
                         loop = false;
                     }
-                } while (loop === true)
+                }
 
 
             } else
