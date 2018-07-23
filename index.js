@@ -205,6 +205,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var filename = req.file.originalname.substr(0, req.file.originalname.length - 4) + '.zip';
         res.setHeader('Content-disposition', 'attachment; filename=' + filename);
         archive.append(xml, {name: req.file.originalname});
+        // Now add the stats file
+        txt = "Original trackpoints: " + pts.length + ", filtered trackpoints: " + simple_pts.length;
+        archive.append(txt, {name: 'stats.txt'});
+
+
         archive
                 .finalize()
                 .pipe(res);
