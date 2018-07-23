@@ -119,7 +119,7 @@
                 index;
 
         for (var i = first + 1; i < last; i++) {
-            var sqDist = getSqSegDist(points[i], points[first], points[last]);
+            var sqDist = getSqSegDistOrig(points[i], points[first], points[last]);
 
             if (sqDist > maxSqDist) {
                 index = i;
