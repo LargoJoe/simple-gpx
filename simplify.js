@@ -31,7 +31,11 @@
         var A = Math.sqrt(getSqDist(p1, p2));
         var B = Math.sqrt(getSqDist(p, p1));
         var C = Math.sqrt(getSqDist(p, p2));
-        if (A === 0 || B === 0 || C === 0) {
+        if (A === 0) {
+            return 10;
+        }
+
+        if (B === 0 || C === 0) {
             return 0;
         }
         // Calculate area of triangle using Heron's formula.
