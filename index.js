@@ -1,32 +1,18 @@
 var express = require('express');
-
 var multer = require('multer'); //middleware for form/file upload
 var xml2js = require('xml2js');
-
 var archiver = require('archiver'); // zip files
 
 var crypto = require('crypto');
-
 var parseString = xml2js.parseString;
 var builder = new xml2js.Builder();
-
 var simplify = require('./simplify.js');
 var math = require('./math.min.js');
-
-
 var storage = multer.memoryStorage();
 var upload = multer({storage: storage});
-
-
 var app = express();
-
-
-
 app.set('port', (process.env.PORT || 5000));
-
 app.use(express.static(__dirname + '/public'));
-
-
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
     parseString(gpx, function (err, result) {
@@ -48,10 +34,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
         var tracks = result.gpx.trk;
-
         var tl = tracks.length;
-
-
         for (var i = 0; i < tl; ++i) {
 
             if (typeof result.gpx.trk[i].extensions != "undefined")
@@ -66,7 +49,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var pt = trkpts[k].$;
                     pt.lat = math.round(pt.lat, 5);
                     pt.lon = math.round(pt.lon, 5);
-
                     if (req.body.elevation === "yes") {
                         var elevation = trkpts[k].ele;
                         pt.ele = math.round(elevation);
@@ -102,17 +84,45 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * this trk
              */
 
-            var tolerance = req.body.tolerance / metre(pts[0].lat);
-            var simple_pts = simplify(pts, tolerance);
+            var input_tolerance = req.body.tolerance;
+            // Need to filter to 500 or 10,000 points
+            if (input_tolerance === 500 || input_tolerance === 10000) {
 
+                var tolerance_metres = 10;
+                var tolerance = tolerance_metres / metre(pts[0].lat); // try 10 metres to start
+                if (pts.length < input_tolerance) {
+                    var loop = false;
+                } else
+                {
+                    var loop = true;
+                }
+
+
+                do {
+                    var simple_pts = simplify(pts, tolerance);
+
+                    if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.9)
+                    {
+                        tolerance = tolerance_metres * imput_tolerance / simple_pts.length;
+                    } else
+                    {
+                        loop = false;
+                    }
+                } while (loop === true)
+
+
+            } else
+            {
+
+                var tolerance = req.body.tolerance / metre(pts[0].lat);
+                var simple_pts = simplify(pts, tolerance);
+            }
             var formatted_pts = [];
             for (var l = 0; l < simple_pts.length; ++l) {
                 formatted_pts[l] = {};
                 formatted_pts[l].$ = {};
-
                 formatted_pts[l].$.lat = simple_pts[l].lat;
                 formatted_pts[l].$.lon = simple_pts[l].lon;
-
                 if (simple_pts[l].ele) {
                     formatted_pts[l].ele = simple_pts[l].ele;
                 }
@@ -124,10 +134,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             }
 
+
             result.gpx.trk[i].trkseg = [];
             result.gpx.trk[i].trkseg[0] = {};
             result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
-
             /*
              * Split track
              */
@@ -143,23 +153,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 if (total_length > split_length * 1.10) {
                     var extensions = result.gpx.trk[i].extensions;
                     delete result.gpx.trk[i];
-
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
                     var splits = 1;
-
-
-
                     for (var l = 0; l < accumulated_lengths.length; ++l) {
                         if (accumulated_lengths [l] > split_length * splits) {
                             var trkpts = formatted_pts.slice(last_split, l);
                             last_split = l - 1;
-
                             var trk_name = split_name + '-' + splits;
-
                             splits++;
                             var trk = {};
-
                             trk.name = trk_name;
                             if (typeof extensions === 'object') {
                                 trk.extensions = extensions;
@@ -167,7 +170,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             trk.trkseg = [];
                             trk.trkseg[0] = {};
                             trk.trkseg[0].trkpt = trkpts;
-
                             result.gpx.trk.push(trk);
                         }
                     }
@@ -182,7 +184,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     trk.trkseg[0] = {};
                     trk.trkseg[0].trkpt = trkpts;
                     result.gpx.trk.push(trk);
-
                 }
 
 
@@ -206,8 +207,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         archive
                 .finalize()
                 .pipe(res);
-
-
     });
 });
 app.listen(app.get('port'), function () {
@@ -236,7 +235,6 @@ function distance(coord1, coord2) {
     var lon1 = coord1.lon;
     var lat2 = coord2.lat;
     var lon2 = coord2.lon;
-
     var radlat1 = Math.PI * lat1 / 180;
     var radlat2 = Math.PI * lat2 / 180;
     var theta = lon1 - lon2;
@@ -246,7 +244,6 @@ function distance(coord1, coord2) {
     dist = dist * 180 / Math.PI;
     dist = dist * 60 * 1.1515;
     dist = dist * 1609.344;
-
     return dist;
 }
 
