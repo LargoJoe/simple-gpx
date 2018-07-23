@@ -206,9 +206,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
         archive.append(xml, {name: req.file.originalname});
         // Now add the stats file
-        txt = "Simple GPX" + String.fromCharCode(13) +
-                "https://simple-gpx.herokuapp.com" + String.fromCharCode(13) +
-                "Tolerance chosen: " + input_tolerance + String.fromCharCode(13) +
+        txt = "Simple GPX" + "\r\n" +
+                "https://simple-gpx.herokuapp.com" + "\r\n" +
+                "Tolerance chosen: " + input_tolerance + "\r\n" +
                 "Original trackpoints: " + pts.length + ", filtered trackpoints: " + simple_pts.length;
         archive.append(txt, {name: 'stats.txt'});
 
