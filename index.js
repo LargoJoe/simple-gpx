@@ -85,6 +85,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              */
 
             var input_tolerance = req.body.tolerance;
+            var simple_pts = [];
             // Need to filter to 500 or 10,000 points
             if (input_tolerance == 500 || input_tolerance == 10000) {
 
@@ -99,11 +100,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
                 do {
-                    var simple_pts = simplify(pts, tolerance);
+                    simple_pts = simplify(pts, tolerance);
 
                     if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.9)
                     {
-                        tolerance = tolerance * imput_tolerance / simple_pts.length;
+                        tolerance = tolerance * input_tolerance / simple_pts.length;
                     } else
                     {
                         loop = false;
@@ -114,8 +115,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             } else
             {
 
-                var tolerance = req.body.tolerance / metre(pts[0].lat);
-                var simple_pts = simplify(pts, tolerance);
+                var tolerance = input_tolerance / metre(pts[0].lat);
+                simple_pts = simplify(pts, tolerance);
             }
             var formatted_pts = [];
             for (var l = 0; l < simple_pts.length; ++l) {
