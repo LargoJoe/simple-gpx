@@ -209,7 +209,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         txt = "Simple GPX" + "\r\n" +
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
                 "Tolerance chosen: " + input_tolerance + "\r\n" +
-                "Original trackpoints: " + pts.length + ", filtered trackpoints: " + simple_pts.length;
+                "Original trackpoints: " + pts.length + ", simplified trackpoints: " + simple_pts.length;
         archive.append(txt, {name: 'stats.txt'});
 
 
