@@ -102,7 +102,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 while (loop === true) {
                     simple_pts = simplify(pts, tolerance);
 
-                    if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.98)
+                    if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
                     {
                         tolerance = tolerance * simple_pts.length / input_tolerance;
                     } else
