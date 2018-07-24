@@ -265,7 +265,7 @@ function distance(coord1, coord2) {
     var lat2 = coord2.lat;
     var lon2 = coord2.lon;
 
-    if (lat1 === lat2 && lon2 === lon2) {
+    if (lat1 === lat2 && lon1 === lon2) {
         return 0;
     }
 
