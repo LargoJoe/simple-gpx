@@ -227,7 +227,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
                 "Tolerance chosen: " + input_tolerance + "\r\n" +
                 "Original trackpoints: " + pts.length +
-                ", simplified trackpoints: " + simple_pts.length;
+                ", simplified trackpoints: " + simple_pts.length + "/r/n" +
+                "Original tracks: " + tl +
+                ", simplified tracks: " + result.gpx.trk.length;
 
         archive.append(txt, {name: 'stats.txt'});
 
