@@ -247,10 +247,14 @@ function accumulatedLengths(coords) {
         return [];
     var total = 0,
             lengths = [0];
+    var log = true;
     for (var i = 0, n = coords.length - 1; i < n; i++) {
 
         total += distance(coords[i], coords[i + 1]);
-        console.log(total);
+        if (isNaN(total) && log === true) {
+            console.log(i);
+            log = false;
+        }
         lengths.push(total);
     }
 
