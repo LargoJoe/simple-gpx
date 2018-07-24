@@ -98,6 +98,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     loop = false;
                 }
 
+                console.log(pts.length <= input_tolerance);
+
 
                 while (loop === true) {
                     simple_pts = simplify(pts, tolerance);
@@ -187,15 +189,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     result.gpx.trk.push(trk);
                 }
 
-
             }
 
-
-
-
         }
-
-
 
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
@@ -210,8 +206,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
                 "Tolerance chosen: " + input_tolerance + "\r\n" +
                 "Original trackpoints: " + pts.length +
-                ", simplified trackpoints: " + simple_pts.length +
-                pts.length <= input_tolerance;
+                ", simplified trackpoints: " + simple_pts.length;
+
         archive.append(txt, {name: 'stats.txt'});
 
 
