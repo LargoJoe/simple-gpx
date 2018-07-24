@@ -122,16 +122,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             }
 
-            console.log("split length " + split_pts.length);
+
             /*
              * If track has been split then delete original track from
              * returned GPX
              */
-            console.log("length " + split_pts.length);
+
             if (split_pts.length > 1) {
                 delete result.gpx.trk[i];
             }
-            console.log("length after " + split_pts.length);
+
 
 
             /*
@@ -139,7 +139,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * this trk
              */
 
-            console.log(split_pts.length);
+
 
             for (var s = 0; s < split_pts.length; ++s) {
 
@@ -175,8 +175,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 } else
                 {
 
-                    var tolerance = input_tolerance / metre(pts[0].lat);
-                    console.log(split_pts[s]);
+                    var tolerance = input_tolerance / metre(split_pts[s][0].lat);
                     simple_pts = simplify(split_pts[s], tolerance);
                 }
                 var formatted_pts = [];
