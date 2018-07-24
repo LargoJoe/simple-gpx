@@ -139,7 +139,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * this trk
              */
 
-
+            var total_points = 0;
 
             for (var s = 0; s < split_pts.length; ++s) {
 
@@ -210,8 +210,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     result.gpx.trk.push(trk_split);
                 }
 
-
+                total_points += trk_split.length;
             }
+
         }
 
         // Convert back to xml to send back to end user
@@ -227,7 +228,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
                 "Tolerance chosen: " + input_tolerance + "\r\n" +
                 "Original trackpoints: " + pts.length +
-                ", simplified trackpoints: " + simple_pts.length + "\r\n" +
+                ", simplified trackpoints: " + total_points + "\r\n" +
                 "Original tracks: " + tl +
                 ", simplified tracks: " + split_pts.length;
 
