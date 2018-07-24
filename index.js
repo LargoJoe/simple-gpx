@@ -90,6 +90,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var split_length = req.body.splitlength * 1000;
                 var accumulated_lengths = accumulatedLengths(pts);
+                console.log("accumulated " + accumulated_lengths.length);
+
                 var total_length = accumulated_lengths [accumulated_lengths.length - 1];
                 // Don't bother splitting if total length isn't 10% or more longer than
                 // split length
