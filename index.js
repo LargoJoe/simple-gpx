@@ -210,7 +210,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     result.gpx.trk.push(trk_split);
                 }
 
-                total_points += formatted_points.length;
+                total_points += formatted_pts.length;
             }
 
         }
