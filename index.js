@@ -192,7 +192,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 trk_split.trkseg[0].trkpt = formatted_pts;
 
 
-                if (split_pts.length === 0) {
+                if (split_pts.length === 1) {
                     trk_split.name = result.gpx.trk[i].name;
                     result.gpx.trk[i] = trk_split;
                 } else
