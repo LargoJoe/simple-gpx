@@ -140,7 +140,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var simple_pts = [];
                 // Need to filter to 500 or 10,000 points
-                if (input_tolerance === 500 || input_tolerance === 10000) {
+                if (input_tolerance == 500 || input_tolerance == 10000) {
 
                     var tolerance_metres = 5;
                     var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
