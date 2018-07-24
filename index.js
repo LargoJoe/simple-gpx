@@ -249,7 +249,7 @@ function accumulatedLengths(coords) {
             lengths = [0];
     for (var i = 0, n = coords.length - 1; i < n; i++) {
         total += distance(coords[i], coords[i + 1]);
-        console.log("distance " + total);
+        console.log(coords[i]);
         lengths.push(total);
     }
     return lengths;
