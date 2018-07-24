@@ -248,6 +248,7 @@ function accumulatedLengths(coords) {
     var total = 0,
             lengths = [0];
     var log = true;
+    console.log(coords[6925]);
     console.log(coords[6926]);
     for (var i = 0, n = coords.length - 1; i < n; i++) {
 
