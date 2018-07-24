@@ -175,6 +175,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 {
 
                     var tolerance = input_tolerance / metre(pts[0].lat);
+                    console.log(split_pts[s]);
                     simple_pts = simplify(split_pts[s], tolerance);
                 }
                 var formatted_pts = [];
