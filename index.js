@@ -253,12 +253,13 @@ function accumulatedLengths(coords) {
 
         lengths.push(total);
     }
-    console.log(lengths[0]);
+
     return lengths;
 }
 
 function distance(coord1, coord2) {
     var lat1 = coord1.lat;
+    console.log("lat1 " + coord1.lat);
     var lon1 = coord1.lon;
     var lat2 = coord2.lat;
     var lon2 = coord2.lon;
