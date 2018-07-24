@@ -45,6 +45,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             for (var j = 0; j < trksegs.length; ++j) {
                 var trkpts = trksegs[j].trkpt;
                 var pts = [];
+                var last_pt = {};
                 for (var k = 0; k < trkpts.length; ++k) {
                     var pt = trkpts[k].$;
                     pt.lat = math.round(pt.lat, 5);
@@ -60,8 +61,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         pt.time = timestamp;
                     }
 
-
-                    pts.push(pt);
+                    if (pt !== last_pt) {
+                        pts.push(pt);
+                    }
+                    last_pt = pt;
                 }
 
 
