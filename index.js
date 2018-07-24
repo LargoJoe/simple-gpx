@@ -127,10 +127,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * If track has been split then delete original track from
              * returned GPX
              */
-
+            console.log("length " + split_pts.length);
             if (split_pts.length > 1) {
                 delete result.gpx.trk[i];
             }
+            console.log("length after " + split_pts.length);
 
 
             /*
