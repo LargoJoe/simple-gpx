@@ -114,7 +114,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             }
 
-            console.log("split length " + _pts.length);
+            console.log("split length " + split_pts.length);
             /*
              * If track has been split then delete original track from
              * returned GPX
