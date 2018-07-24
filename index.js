@@ -248,15 +248,11 @@ function accumulatedLengths(coords) {
     var total = 0,
             lengths = [0];
     var log = true;
-    console.log(coords[6925]);
-    console.log(coords[6926]);
+
     for (var i = 0, n = coords.length - 1; i < n; i++) {
 
         total += distance(coords[i], coords[i + 1]);
-        if (isNaN(total) && log === true) {
-            console.log(i);
-            log = false;
-        }
+
         lengths.push(total);
     }
 
@@ -265,10 +261,15 @@ function accumulatedLengths(coords) {
 
 function distance(coord1, coord2) {
     var lat1 = coord1.lat;
-
     var lon1 = coord1.lon;
     var lat2 = coord2.lat;
     var lon2 = coord2.lon;
+
+    if (lat1 === lat2 && lon2 === lon2) {
+        return 0;
+    }
+
+
     var radlat1 = Math.PI * lat1 / 180;
     var radlat2 = Math.PI * lat2 / 180;
     var theta = lon1 - lon2;
