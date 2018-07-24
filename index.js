@@ -138,7 +138,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * this trk
              */
 
-
+            console.log(split_pts.length);
 
             for (var s = 0; s < split_pts.length; ++s) {
 
