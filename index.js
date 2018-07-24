@@ -68,6 +68,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
 
+
+
+
             // Delete all the trksegs
             for (var t = 0; t < trksegs.length; ++t) {
                 delete result.gpx.trk[i].trkseg[t];
@@ -77,6 +80,47 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 delete result.gpx.trk[i].trkseg;
             }
 
+            /*
+             * If required split track points up ready for simplification
+             */
+            var split_pts = [pts];
+            if (req.body.splittrk === "yes") {
+                var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
+
+                var split_length = req.body.splitlength * 1000;
+                var accumulated_lengths = accumulatedLengths(pts);
+                var total_length = accumulated_lengths [accumulated_lengths.length - 1];
+                // Don't bother splitting if total length isn't 10% or more longer than
+                // split length
+
+                if (total_length > split_length * 1.10) {
+                    delete split_pts[0]
+                    var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
+                    var last_split = 0;
+                    var splits = 1;
+                    for (var l = 0; l < accumulated_lengths.length; ++l) {
+                        if (accumulated_lengths [l] > split_length * splits) {
+                            var trkpts = pts.slice(last_split, l);
+                            last_split = l - 1;
+                            splits++;
+                            split_pts.push(trkpts);
+
+                        }
+                    }
+                    var trkpts = pts.slice(last_split, pts.length);
+                    split_pts.push(trkpts)
+
+                }
+
+            }
+            /*
+             * If track has been split then delete original track from
+             * returned GPX
+             */
+
+            if (split_pts.length > 1) {
+                delete result.gpx.trk[i];
+            }
 
 
             /*
@@ -84,111 +128,80 @@ app.post('/', upload.single('fileinput'), function (req, res) {
              * this trk
              */
 
-            var input_tolerance = req.body.tolerance;
-            var simple_pts = [];
-            // Need to filter to 500 or 10,000 points
-            if (input_tolerance == 500 || input_tolerance == 10000) {
-
-                var tolerance_metres = 5;
-                var tolerance = tolerance_metres / metre(pts[0].lat); // try 10 metres to start
-                var loop = true;
-
-                if (pts.length <= input_tolerance) {
-                    simple_pts = pts;
-                    loop = false;
-                }
 
 
-                while (loop === true) {
-                    simple_pts = simplify(pts, tolerance);
-
-                    if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
-                    {
-                        tolerance = tolerance * simple_pts.length / input_tolerance;
-                    } else
-                    {
-                        loop = false;
-                    }
-                }
-
-
-            } else
+            for (var s = 0; s < split_pts.length; ++s)
             {
 
-                var tolerance = input_tolerance / metre(pts[0].lat);
-                simple_pts = simplify(pts, tolerance);
-            }
-            var formatted_pts = [];
-            for (var l = 0; l < simple_pts.length; ++l) {
-                formatted_pts[l] = {};
-                formatted_pts[l].$ = {};
-                formatted_pts[l].$.lat = simple_pts[l].lat;
-                formatted_pts[l].$.lon = simple_pts[l].lon;
-                if (simple_pts[l].ele) {
-                    formatted_pts[l].ele = simple_pts[l].ele;
-                }
+                var input_tolerance = req.body.tolerance;
 
-                if (simple_pts[l].time) {
-                    formatted_pts[l].time = simple_pts[l].time;
-                }
+                var simple_pts = [];
+                // Need to filter to 500 or 10,000 points
+                if (input_tolerance == 500 || input_tolerance == 10000) {
+
+                    var tolerance_metres = 5;
+                    var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
+                    var loop = true;
+
+                    if (split_pts[s].length <= input_tolerance) {
+                        simple_pts = split_pts[s];
+                        loop = false;
+                    }
 
 
-            }
+                    while (loop === true) {
+                        simple_pts = simplify(split_pts[s], tolerance);
 
-
-            result.gpx.trk[i].trkseg = [];
-            result.gpx.trk[i].trkseg[0] = {};
-            result.gpx.trk[i].trkseg[0].trkpt = formatted_pts;
-            /*
-             * Split track
-             */
-            if (req.body.splittrk === "yes") {
-
-
-                var split_length = req.body.splitlength * 1000;
-                var accumulated_lengths = accumulatedLengths(simple_pts);
-                var total_length = accumulated_lengths [accumulated_lengths.length - 1];
-                // Don't bother splitting if total length isn't 10% or more longer than
-                // split length
-
-                if (total_length > split_length * 1.10) {
-                    var extensions = result.gpx.trk[i].extensions;
-                    delete result.gpx.trk[i];
-                    var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
-                    var last_split = 0;
-                    var splits = 1;
-                    for (var l = 0; l < accumulated_lengths.length; ++l) {
-                        if (accumulated_lengths [l] > split_length * splits) {
-                            var trkpts = formatted_pts.slice(last_split, l);
-                            last_split = l - 1;
-                            var trk_name = split_name + '-' + splits;
-                            splits++;
-                            var trk = {};
-                            trk.name = trk_name;
-                            if (typeof extensions === 'object') {
-                                trk.extensions = extensions;
-                            }
-                            trk.trkseg = [];
-                            trk.trkseg[0] = {};
-                            trk.trkseg[0].trkpt = trkpts;
-                            result.gpx.trk.push(trk);
+                        if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
+                        {
+                            tolerance = tolerance * simple_pts.length / input_tolerance;
+                        } else
+                        {
+                            loop = false;
                         }
                     }
-                    var trkpts = formatted_pts.slice(last_split, formatted_pts.length);
-                    var trk_name = split_name + '-' + splits;
-                    var trk = {};
-                    trk.name = trk_name;
-                    if (typeof extensions === 'object') {
-                        trk.extensions = extensions;
+
+
+                } else
+                {
+
+                    var tolerance = input_tolerance / metre(pts[0].lat);
+                    simple_pts = simplify(split_pts[s], tolerance);
+                }
+                var formatted_pts = [];
+                for (var l = 0; l < simple_pts.length; ++l) {
+                    formatted_pts[l] = {};
+                    formatted_pts[l].$ = {};
+                    formatted_pts[l].$.lat = simple_pts[l].lat;
+                    formatted_pts[l].$.lon = simple_pts[l].lon;
+                    if (simple_pts[l].ele) {
+                        formatted_pts[l].ele = simple_pts[l].ele;
                     }
-                    trk.trkseg = [];
-                    trk.trkseg[0] = {};
-                    trk.trkseg[0].trkpt = trkpts;
-                    result.gpx.trk.push(trk);
+
+                    if (simple_pts[l].time) {
+                        formatted_pts[l].time = simple_pts[l].time;
+                    }
+
+
                 }
 
-            }
+                var trk_split = {};
+                trk_split.name = split_name + '-' + s; // track nam
+                trk_split.trkseg = [];
+                trk_split.trkseg[0] = {};
+                trk_split.trkseg[0].trkpt = formatted_pts;
 
+
+                if (split_pts.length === 0) {
+                    trk_split.name = result.gpx.trk[i].name;
+                    result.gpx.trk[i] = trk_split;
+                } else
+                {
+                    result.gpx.trk.push(trk_split);
+                }
+
+
+            }
         }
 
         // Convert back to xml to send back to end user
