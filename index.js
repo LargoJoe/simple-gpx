@@ -227,7 +227,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         txt = "Simple GPX" + "\r\n" +
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
                 "Tolerance chosen: " + input_tolerance + "\r\n" +
-                "Split track:" + req.body.splittrk +
+                "Split track: " + req.body.splittrk +
                 ", split distance: " + req.body.splitlength + "km \r\n" +
                 "Original tracks: " + tl +
                 ", simplified tracks: " + split_pts.length + "\r\n" +
