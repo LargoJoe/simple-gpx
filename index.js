@@ -249,7 +249,7 @@ function accumulatedLengths(coords) {
             lengths = [0];
     var log = true;
     for (var i = 0, n = coords.length - 1; i < n; i++) {
-
+        console.log(coords[6926]);
         total += distance(coords[i], coords[i + 1]);
         if (isNaN(total) && log === true) {
             console.log(i);
