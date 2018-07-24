@@ -113,6 +113,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
 
             }
+
+            console.log("split length " + _pts.length);
             /*
              * If track has been split then delete original track from
              * returned GPX
@@ -130,14 +132,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
 
-            for (var s = 0; s < split_pts.length; ++s)
-            {
+            for (var s = 0; s < split_pts.length; ++s) {
 
                 var input_tolerance = req.body.tolerance;
 
                 var simple_pts = [];
                 // Need to filter to 500 or 10,000 points
-                if (input_tolerance == 500 || input_tolerance == 10000) {
+                if (input_tolerance === 500 || input_tolerance === 10000) {
 
                     var tolerance_metres = 5;
                     var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
