@@ -98,8 +98,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     loop = false;
                 }
 
-                console.log(pts.length <= input_tolerance);
-
 
                 while (loop === true) {
                     simple_pts = simplify(pts, tolerance);
