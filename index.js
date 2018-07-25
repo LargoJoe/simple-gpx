@@ -245,7 +245,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             // Now add routepoints into GPX, splitting every 50 points.
             if (typeof split_name === "undefined") {
-                split_name = result.gpx.trk[i].name;
+                split_name = result.gpx.trk[0].name;
             }
 
             var r = 0;
