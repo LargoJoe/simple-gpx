@@ -269,7 +269,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             if (typeof nearest !== "undefined") {
                                 var nextNearest = nearest;
                             }
-                            nearest = j;
+                            var nearest = j;
                         }
 
                     }
