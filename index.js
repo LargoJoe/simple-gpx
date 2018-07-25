@@ -215,6 +215,56 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         }
 
+        /*
+         * If there is no route in the file generate a filtered one.
+         */
+        if (typeof result.gpx.rte === "undefined") {
+            result.gpx.rte = {};
+            // We want an average of a route point every 5km.
+            input_tolerance = parseInt(total_length / 5);
+            var tolerance_metres = 50;
+            var tolerance = tolerance_metres / metre(pts[0].lat);
+            var loop = true;
+
+            if (pts.length <= input_tolerance) {
+                simple_rtes = pts;
+                loop = false;
+            }
+
+            while (loop === true) {
+                simple_rtes = simplify(pts, tolerance);
+
+                if (simple_rtes.length > input_tolerance || simple_rtes.length < input_tolerance * 0.99)
+                {
+                    tolerance = tolerance * simple_rtes.length / input_tolerance;
+                } else
+                {
+                    loop = false;
+                }
+            }
+
+            // Now add routepoints into GPX, splitting every 50 points.
+            var r = 0
+            var formatted_rtepts = [];
+            for (var l = 0; l < simple_rtes.length; ++l) {
+                formatted_rtepts[l] = {};
+                formatted_rtepts[l].$ = {};
+                formatted_rtepts[l].$.lat = simple_rtes[l].lat;
+                formatted_rtepts[l].$.lon = simple_rtes[l].lon;
+                if (formatted_rtepts.length === 50) {
+                    var rte = {}
+                    rte.name = split_name + '-' + r; // route_name
+                    r++;
+                    rte.rtept = formatted_rtepts;
+                    formatted_rtepts = [];
+
+
+                }
+
+            }
+
+        }
+
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         xml = xml.replace(/&#xD;/g, '');
