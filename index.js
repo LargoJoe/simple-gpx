@@ -262,24 +262,24 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var tmp = result.gpx.wpt;
 
-                var pts = [];
+                var wpts = [];
                 var last_pt = {};
                 for (var k = 0; k < tmp.length; ++k) {
-                    var pt = tmp[k].$;
-                    pt.lat = math.round(pt.lat, 5);
-                    pt.lon = math.round(pt.lon, 5);
+                    var wpt = tmp[k].$;
+                    wpt.lat = math.round(wpt.lat, 5);
+                    wpt.lon = math.round(wpt.lon, 5);
 
-                    if (pt !== last_pt) {
-                        pts.push(pt);
+                    if (wpt !== last_pt) {
+                        wpts.push(wpt);
                     }
-                    last_pt = pt;
+                    last_pt = wpt;
                 }
 
 
-                for (var i = 0; i < pts.length; i++) {
+                for (var i = 0; i < wpts.length; i++) {
                     var last_distance = 999;
                     for (var j = 0; j < simple_rtes.length; j++) {
-                        var dist = distance(pts[i], simple_rtes[j]);
+                        var dist = distance(wpts[i], simple_rtes[j]);
                         if (dist <= last_distance) {
                             last_distance = dist;
                             if (typeof nearest !== "undefined") {
@@ -294,7 +294,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                      */
 
                     var position = Math.min(nearest, nextNearest) + 1;
-                    simple_rtes.splice(position, 0, pts[i]);
+                    simple_rtes.splice(position, 0, wpts[i]);
 
                 }
 
