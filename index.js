@@ -230,13 +230,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
 
-            input_tolerance = parseInt(total_length_km / 5);
-            console.log(total_length);
+            input_tolerance_rte = parseInt(total_length_km / 5);
+
             var tolerance_metres = 50;
             var tolerance = tolerance_metres / metre(pts[0].lat);
             var loop = true;
 
-            if (pts.length <= input_tolerance) {
+            if (pts.length <= input_tolerance_rte) {
                 simple_rtes = pts;
                 loop = false;
             }
@@ -244,9 +244,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             while (loop === true) {
                 simple_rtes = simplify(pts, tolerance);
 
-                if (simple_rtes.length > input_tolerance || simple_rtes.length < input_tolerance * 0.99)
+                if (simple_rtes.length > input_tolerance_rte || simple_rtes.length < input_tolerance_rte * 0.99)
                 {
-                    tolerance = tolerance * simple_rtes.length / input_tolerance;
+                    tolerance = tolerance * simple_rtes.length / input_tolerance_rte;
                 } else
                 {
                     loop = false;
@@ -286,6 +286,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 formatted_rtepts = [];
             }
 
+            var routes_generated = "Routes generated: " + r +
+                    ', average points per route: ' + formatted_rtepts.length / r;
+
         }
 
         // Convert back to xml to send back to end user
@@ -306,7 +309,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 ", simplified tracks: " + split_pts.length + "\r\n" +
                 "Original trackpoints: " + pts.length +
                 ", simplified trackpoints: " + total_points +
-                ", average trackpoints per track: " + parseInt(total_points / split_pts.length);
+                ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
+
+        if (typeof routes_generated !== "undefined") {
+            txt += routes_generated;
+        }
 
 
         archive.append(txt, {name: 'stats.txt'});
