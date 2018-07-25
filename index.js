@@ -265,7 +265,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var pts = [];
                 var last_pt = {};
                 for (var k = 0; k < tmp.length; ++k) {
-                    var wpt = tmp[k].$;
+                    var pt = tmp[k].$;
                     pt.lat = math.round(pt.lat, 5);
                     pt.lon = math.round(pt.lon, 5);
 
