@@ -291,6 +291,21 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
         }
 
+        /*
+         * Now just shuffle rte and trk around to be in right sequence
+         */
+
+        var trk = result.gpx.trk;
+        var rte = result.gpx.rte;
+
+        delete result.gpx.trk;
+        delete result.gpx.rte;
+
+        result.gpx.rte = rte;
+        result.gpx.trk = trk;
+
+
+
         // Convert back to xml to send back to end user
         var xml = builder.buildObject(result);
         xml = xml.replace(/&#xD;/g, '');
