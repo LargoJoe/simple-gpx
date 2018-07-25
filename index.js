@@ -221,6 +221,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         if (typeof result.gpx.rte === "undefined") {
             result.gpx.rte = [];
             // We want an average of a route point every 5km.
+            if (typeof total_length === "undefined") {
+                var accumulated_lengths = accumulatedLengths(pts);
+                var total_length = accumulated_lengths [accumulated_lengths.length - 1];
+
+            }
+
+
             input_tolerance = parseInt(total_length / 5);
             console.log(total_length);
             var tolerance_metres = 50;
