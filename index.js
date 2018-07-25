@@ -244,7 +244,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
             // Now add routepoints into GPX, splitting every 50 points.
-            var r = 0
+            var r = 0;
             var formatted_rtepts = [];
             for (var l = 0; l < simple_rtes.length; ++l) {
                 formatted_rtepts[l] = {};
@@ -256,6 +256,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     rte.name = split_name + '-' + r; // route_name
                     r++;
                     rte.rtept = formatted_rtepts;
+                    result.gpx.rte.push(rte);
                     formatted_rtepts = [];
 
 
