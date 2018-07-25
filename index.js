@@ -262,7 +262,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     rte.name = split_name + '-' + r; // route_name
                     r++;
                     rte.rtept = formatted_rtepts;
-                    console.log(rte);
                     result.gpx.rte.push(rte);
                     formatted_rtepts = [];
                 }
