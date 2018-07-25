@@ -244,6 +244,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
             // Now add routepoints into GPX, splitting every 50 points.
+            if (typeof split_name === "undefined") {
+                split_name = result.gpx.trk[i].name;
+            }
+
             var r = 0;
             var formatted_rtepts = [];
             for (var l = 0; l < simple_rtes.length; ++l) {
@@ -253,16 +257,24 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 formatted_rtepts[l].$.lon = simple_rtes[l].lon;
                 if (formatted_rtepts.length === 50) {
                     var rte = {}
+
                     rte.name = split_name + '-' + r; // route_name
                     r++;
                     rte.rtept = formatted_rtepts;
                     console.log(rte);
                     result.gpx.rte.push(rte);
                     formatted_rtepts = [];
-
-
                 }
+            }
 
+            if (formatted_rtepts.length !== 0) {
+                var rte = {}
+                rte.name = split_name + '-' + r; // route_name
+                r++;
+                rte.rtept = formatted_rtepts;
+                console.log(rte);
+                result.gpx.rte.push(rte);
+                formatted_rtepts = [];
             }
 
         }
