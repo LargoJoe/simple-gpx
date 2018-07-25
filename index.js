@@ -279,11 +279,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 for (var i = 0; i < wpts.length; i++) {
 
                     var last_distance = 999999;
+                    var prev_distance = 999999;
                     var nextNearest = -10;
                     for (var j = 0; j < simple_rtes.length; j++) {
                         var dist = distance(wpts[i], simple_rtes[j]);
 
                         if (dist <= last_distance) {
+                            prev_distance = last_distance;
                             last_distance = dist;
                             if (typeof nearest !== "undefined") {
                                 var nextNearest = nearest;
@@ -291,6 +293,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             var nearest = j;
                             if (nextNearest === -10) {
                                 var nextNearest = nearest;
+                            }
+
+                        } else {
+                            if (dist <= prev_distance) {
+                                nextNearest = j;
                             }
 
                         }
