@@ -253,6 +253,37 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
             }
 
+            /*
+             * If there are any waypoints assume they are controls and try and
+             * insert into route
+             */
+
+            if (typeof result.gpx.wpt !== "undefined") {
+
+                var wpt = result.gpx.wpt;
+                for (var i = 0; i < wpt.length; i++) {
+                    last_distance = 999;
+                    for (var j = 0; j < formatted_rtepts.length; j++) {
+                        var distance = distance(wpt[i], formatted_rtepts[j]);
+                        if (distance <= last_distance) {
+                            if (typeof nearest !== "undefined") {
+                                var nextNearest = nearest;
+                            }
+                            nearest = j;
+                        }
+
+                    }
+                    /*
+                     * Now splice in this waypoint
+                     */
+
+                    var position = Math.min(nearest, nextNearest) + 1;
+                    formatted_rtepts.splice(position, 0, wpt[i]);
+
+                }
+
+            }
+
             // Now add routepoints into GPX, splitting every 50 points.
             if (typeof split_name === "undefined") {
                 split_name = result.gpx.trk[0].name;
