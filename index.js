@@ -263,8 +263,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var wpt = result.gpx.wpt;
                 for (var i = 0; i < wpt.length; i++) {
                     last_distance = 999;
-                    for (var j = 0; j < formatted_rtepts.length; j++) {
-                        var distance = distance(wpt[i], formatted_rtepts[j]);
+                    for (var j = 0; j < simple_rtes.length; j++) {
+                        var distance = distance(wpt[i], simple_rtes[j]);
                         if (distance <= last_distance) {
                             if (typeof nearest !== "undefined") {
                                 var nextNearest = nearest;
@@ -278,7 +278,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                      */
 
                     var position = Math.min(nearest, nextNearest) + 1;
-                    formatted_rtepts.splice(position, 0, wpt[i]);
+                    simple_rtes.splice(position, 0, wpt[i]);
 
                 }
 
