@@ -287,7 +287,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
             var routes_generated = "Routes generated: " + r +
-                    ', average points per route: ' + formatted_rtepts.length / r;
+                    ', average points per route: ' + simple_rtes.length / r;
 
         }
 
