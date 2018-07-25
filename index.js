@@ -294,6 +294,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                      */
 
                     var position = Math.min(nearest, nextNearest) + 1;
+                    console.log(position);
                     simple_rtes.splice(position, 0, wpts[i]);
 
                 }
