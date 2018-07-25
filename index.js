@@ -288,6 +288,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                                 var nextNearest = nearest;
                             }
                             var nearest = j;
+                            if (typeof nextNearest === "undefined") {
+                                var nextNearest = nearest;
+                            }
+
                         }
 
                     }
