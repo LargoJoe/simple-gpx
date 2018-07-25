@@ -272,7 +272,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     r++;
                     rte.rtept = formatted_rtepts;
                     result.gpx.rte.push(rte);
-                    formatted_rtepts = [];
+                    var last_rtept = formatted_rtepts[49];
+                    formatted_rtepts = [last_rtept];
                 }
             }
 
