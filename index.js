@@ -219,7 +219,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
          * If there is no route in the file generate a filtered one.
          */
         if (typeof result.gpx.rte === "undefined") {
-            result.gpx.rte = {};
+            result.gpx.rte = [];
             // We want an average of a route point every 5km.
             input_tolerance = parseInt(total_length / 5);
             var tolerance_metres = 50;
