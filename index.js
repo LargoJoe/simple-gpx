@@ -262,10 +262,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var wpt = result.gpx.wpt;
                 for (var i = 0; i < wpt.length; i++) {
-                    last_distance = 999;
+                    var last_distance = 999;
                     for (var j = 0; j < simple_rtes.length; j++) {
-                        var distance = distance(wpt[i], simple_rtes[j]);
-                        if (distance <= last_distance) {
+                        var dist = distance(wpt[i], simple_rtes[j]);
+                        if (dist <= last_distance) {
+                            last_distance = dist;
                             if (typeof nearest !== "undefined") {
                                 var nextNearest = nearest;
                             }
