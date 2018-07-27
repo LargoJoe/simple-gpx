@@ -220,7 +220,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
          * if they have chosen to generate route
          */
 
-        if (input_tolerance = "route") {
+        if (input_tolerance === "route") {
 
             /*
              * If there is no route in the file generate a filtered one.
