@@ -251,7 +251,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 while (loop === true) {
                     simple_rtes = simplify(pts, tolerance);
 
-                    if (simple_rtes.length > input_tolerance_rte * 1.1 || simple_rtes.length < input_tolerance_rte * 0.9)
+                    if (simple_rtes.length > input_tolerance_rte * 1.2 || simple_rtes.length < input_tolerance_rte * 0.8)
                     {
                         tolerance = tolerance * simple_rtes.length / input_tolerance_rte;
                     } else
