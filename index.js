@@ -15,6 +15,7 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
+    var gpx_filename = req.file.originalname;
     parseString(gpx, function (err, result) {
         if (err) {
             res.send("That doesn't appear to be a GPX file. Use the back arrow and select a valid GPX.");
@@ -378,6 +379,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             result.gpx.rte = rte;
             result.gpx.trk = trk;
 
+            gpx_filename = gpx_filename + "_route";
+
         }
 
 
@@ -389,7 +392,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var archive = archiver.create('zip', {name: 'phil'});
         var filename = req.file.originalname.substr(0, req.file.originalname.length - 4) + '.zip';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
-        archive.append(xml, {name: req.file.originalname});
+        archive.append(xml, {name: gpx_filename});
         // Now add the stats file
         txt = "Simple GPX" + "\r\n" +
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
