@@ -389,15 +389,17 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Now add the stats file
         txt = "Simple GPX" + "\r\n" +
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
-                "Tolerance chosen: " + input_tolerance + "\r\n" +
-                "Split track: " + req.body.splittrk +
-                ", split distance: " + req.body.splitlength + "km \r\n" +
-                "Original tracks: " + tl +
-                ", simplified tracks: " + split_pts.length + "\r\n" +
-                "Original trackpoints: " + pts.length +
-                ", simplified trackpoints: " + total_points +
-                ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
+                "Tolerance chosen: " + input_tolerance + "\r\n";
 
+        if (!isNaN(parseInt(input_tolerance))) {
+            txt += "Split track: " + req.body.splittrk +
+                    ", split distance: " + req.body.splitlength + "km \r\n" +
+                    "Original tracks: " + tl +
+                    ", simplified tracks: " + split_pts.length + "\r\n" +
+                    "Original trackpoints: " + pts.length +
+                    ", simplified trackpoints: " + total_points +
+                    ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
+        }
         if (typeof routes_generated !== "undefined") {
             txt += routes_generated;
         }
