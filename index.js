@@ -379,7 +379,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             result.gpx.rte = rte;
             result.gpx.trk = trk;
 
-            gpx_filename = gpx_filename + "_route";
+            gpx_filename = gpx_filename.substr(0, req.file.originalname.length - 4) + "_route" + ".gpx";
 
         }
 
@@ -390,7 +390,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         xml = xml.replace(/&#xD;/g, '');
         //zip content to be returned
         var archive = archiver.create('zip', {name: 'phil'});
-        var filename = req.file.originalname.substr(0, req.file.originalname.length - 4) + '.zip';
+        var filename = gpx_filename.substr(0, req.file.originalname.length - 4) + '.zip';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
         archive.append(xml, {name: gpx_filename});
         // Now add the stats file
