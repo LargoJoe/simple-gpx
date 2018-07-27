@@ -251,15 +251,14 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 while (loop === true) {
                     simple_rtes = simplify(pts, tolerance);
 
-                    if (simple_rtes.length > input_tolerance_rte || simple_rtes.length < input_tolerance_rte * 0.99)
+                    if (simple_rtes.length > input_tolerance_rte || simple_rtes.length < input_tolerance_rte * 0.9)
                     {
                         tolerance = tolerance * simple_rtes.length / input_tolerance_rte;
                     } else
                     {
                         loop = false;
                     }
-                    console.log("route length " + simple_rtes.length);
-                    console.log("input tolerance " + input_tolerance_rte);
+
 
 
 
