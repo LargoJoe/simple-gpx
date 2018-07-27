@@ -258,6 +258,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     {
                         loop = false;
                     }
+                    console.log("route length " + simple_rtes.length);
+                    console.log("input tolerance " + input_tolerance_rte);
+
+
+
                 }
 
                 /*
