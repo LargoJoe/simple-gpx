@@ -362,7 +362,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
             /*
-             * Now just shuffle rte and trk around to be in right sequence
+             * Now delete trk around to be in right sequence
              */
 
             var trk = result.gpx.trk;
