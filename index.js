@@ -367,17 +367,14 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
             /*
-             * Now delete trk around to be in right sequence
+             * Now delete trk
              */
 
-            var trk = result.gpx.trk;
-            var rte = result.gpx.rte;
+
 
             delete result.gpx.trk;
-            delete result.gpx.rte;
 
-            result.gpx.rte = rte;
-            result.gpx.trk = trk;
+
 
             gpx_filename = gpx_filename.substr(0, gpx_filename.length - 4) + "_route" + ".gpx";
 
