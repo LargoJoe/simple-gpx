@@ -128,7 +128,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  * If split by control then split before simplification
                  */
                 if (req.body.splittrk === "yes - by control" && result.gpx.wpt !== "undefined") {
-                    var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
 
                     var tmp = result.gpx.wpt;
 
@@ -158,12 +157,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     split_pts = [];
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
-                    ;
                     for (var l = 0; l < splits.length; ++l) {
 
                         var trkpts = pts.slice(last_split, splits[l]);
                         last_split = splits[l];
-                        splits++;
+
                         split_pts.push(trkpts);
 
                     }
