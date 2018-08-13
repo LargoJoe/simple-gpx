@@ -147,10 +147,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var splits = [];
                     for (var i = 0; i < wpts.length; i++) {
                         var pos = position(wpts[i], simple_rtes);
-                        splits.push(pos);
+                        if (pos > 50 && pos < wpts.length - 50) {
+                            splits.push(pos);
+                        }
 
                     }
                     splits.sort(compareNumbers);
+
                     split_pts = [];
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
