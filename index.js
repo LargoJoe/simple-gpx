@@ -105,7 +105,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     if (total_length > split_length * 1.10) {
                         delete split_pts[0];
                         split_pts = [];
-                        var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
+
                         var last_split = 0;
                         var splits = 1;
                         for (var l = 0; l < accumulated_lengths.length; ++l) {
@@ -128,6 +128,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  * If split by control then split before simplification
                  */
                 if (req.body.splittrk === "yes - by control" && result.gpx.wpt !== "undefined") {
+                    var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
 
                     var tmp = result.gpx.wpt;
 
