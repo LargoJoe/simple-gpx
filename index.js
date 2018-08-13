@@ -144,7 +144,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         last_pt = wpt;
                     }
 
-                    console.log(wpts.length);
+
 
                     var splits = [];
                     for (var i = 0; i < wpts.length; i++) {
@@ -154,11 +154,14 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         }
 
                     }
-                    console.log(JSON.stringify(splits));
+
 
                     splits.sort(compareNumbers);
-                    delete split_pts[0];
-                    split_pts = [];
+                    if (splits.length > 0) {
+                        delete split_pts[0];
+                        split_pts = [];
+                    }
+
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
                     for (var l = 0; l < splits.length; ++l) {
