@@ -167,7 +167,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     for (var l = 0; l < splits.length; ++l) {
 
                         var trkpts = pts.slice(last_split, splits[l]);
-                        last_split = splits[l];
+                        last_split = splits[l] - 1;
 
                         split_pts.push(trkpts);
 
