@@ -128,7 +128,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                  * If split by control then split before simplification
                  */
                 if (req.body.splittrk === "yes - by control" && result.gpx.wpt !== "undefined") {
-
+                    console.log("here");
                     var tmp = result.gpx.wpt;
 
                     var wpts = [];
@@ -170,7 +170,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 }
 
-                console.log(JSON.stringify(splits));
+
 
 
 
