@@ -124,97 +124,148 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 }
 
-
                 /*
-                 * If track has been split then delete original track from
-                 * returned GPX
+                 * If split by control then split before simplification
                  */
+                if (typeof req.body.splittrk === "yes - by control" & result.gpx.wpt !== "undefined") {
 
-                if (split_pts.length > 1) {
-                    delete result.gpx.trk[i];
+                    var tmp = result.gpx.wpt;
+
+                    var wpts = [];
+                    var last_pt = {};
+                    for (var k = 0; k < tmp.length; ++k) {
+                        var wpt = tmp[k].$;
+                        wpt.lat = math.round(wpt.lat, 5);
+                        wpt.lon = math.round(wpt.lon, 5);
+
+                        if (wpt !== last_pt) {
+                            wpts.push(wpt);
+                        }
+                        last_pt = wpt;
+                    }
+
+                    var splits = [];
+                    for (var i = 0; i < wpts.length; i++) {
+                        var pos = position(wpts[i], simple_rtes);
+                        splits.push(pos);
+
+                    }
+                    splits.sort(compareNumbers);
+                    split_pts = [];
+                    var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
+                    var last_split = 0;
+                    ;
+                    for (var l = 0; l < splits.length; ++l) {
+
+                        var trkpts = pts.slice(last_split, splits[l]);
+                        last_split = splits[l];
+                        splits++;
+                        split_pts.push(trkpts);
+
+                    }
+                    var trkpts = pts.slice(last_split, pts.length);
+                    split_pts.push(trkpts)
+
                 }
 
 
 
-                /*
-                 * Simplify and replace trkpoints with simplified trkpoints for
-                 * this trk
-                 */
 
-                var total_points = 0;
 
-                for (var s = 0; s < split_pts.length; ++s) {
+            }
 
 
 
-                    var simple_pts = [];
-                    // Need to filter to 500 or 10,000 points
-                    if (input_tolerance == 500 || input_tolerance == 10000) {
+            /*
+             * If track has been split then delete original track from
+             * returned GPX
+             */
 
-                        var tolerance_metres = 5;
-                        var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
-                        var loop = true;
+            if (split_pts.length > 1) {
+                delete result.gpx.trk[i];
+            }
 
-                        if (split_pts[s].length <= input_tolerance) {
-                            simple_pts = split_pts[s];
+
+
+            /*
+             * Simplify and replace trkpoints with simplified trkpoints for
+             * this trk
+             */
+
+            var total_points = 0;
+
+            for (var s = 0; s < split_pts.length; ++s) {
+
+
+
+                var simple_pts = [];
+                // Need to filter to 500 or 10,000 points
+                if (input_tolerance == 500 || input_tolerance == 10000) {
+
+                    var tolerance_metres = 5;
+                    var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
+                    var loop = true;
+
+                    if (split_pts[s].length <= input_tolerance) {
+                        simple_pts = split_pts[s];
+                        loop = false;
+                    }
+
+
+                    while (loop === true) {
+                        simple_pts = simplify(split_pts[s], tolerance);
+
+                        if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
+                        {
+                            tolerance = tolerance * simple_pts.length / input_tolerance;
+                        } else
+                        {
                             loop = false;
                         }
-
-
-                        while (loop === true) {
-                            simple_pts = simplify(split_pts[s], tolerance);
-
-                            if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
-                            {
-                                tolerance = tolerance * simple_pts.length / input_tolerance;
-                            } else
-                            {
-                                loop = false;
-                            }
-                        }
-
-
-                    } else
-                    {
-
-                        var tolerance = input_tolerance / metre(split_pts[s][0].lat);
-                        simple_pts = simplify(split_pts[s], tolerance);
-                    }
-                    var formatted_pts = [];
-                    for (var l = 0; l < simple_pts.length; ++l) {
-                        formatted_pts[l] = {};
-                        formatted_pts[l].$ = {};
-                        formatted_pts[l].$.lat = simple_pts[l].lat;
-                        formatted_pts[l].$.lon = simple_pts[l].lon;
-                        if (simple_pts[l].ele) {
-                            formatted_pts[l].ele = simple_pts[l].ele;
-                        }
-
-                        if (simple_pts[l].time) {
-                            formatted_pts[l].time = simple_pts[l].time;
-                        }
-
-
                     }
 
-                    var trk_split = {};
-                    trk_split.name = split_name + '-' + s; // track nam
-                    trk_split.trkseg = [];
-                    trk_split.trkseg[0] = {};
-                    trk_split.trkseg[0].trkpt = formatted_pts;
 
+                } else
+                {
 
-                    if (split_pts.length === 1) {
-                        trk_split.name = result.gpx.trk[i].name;
-                        result.gpx.trk[i] = trk_split;
-                    } else
-                    {
-                        result.gpx.trk.push(trk_split);
-                    }
-
-                    total_points += formatted_pts.length;
+                    var tolerance = input_tolerance / metre(split_pts[s][0].lat);
+                    simple_pts = simplify(split_pts[s], tolerance);
                 }
+                var formatted_pts = [];
+                for (var l = 0; l < simple_pts.length; ++l) {
+                    formatted_pts[l] = {};
+                    formatted_pts[l].$ = {};
+                    formatted_pts[l].$.lat = simple_pts[l].lat;
+                    formatted_pts[l].$.lon = simple_pts[l].lon;
+                    if (simple_pts[l].ele) {
+                        formatted_pts[l].ele = simple_pts[l].ele;
+                    }
+
+                    if (simple_pts[l].time) {
+                        formatted_pts[l].time = simple_pts[l].time;
+                    }
+
+
+                }
+
+                var trk_split = {};
+                trk_split.name = split_name + '-' + s; // track nam
+                trk_split.trkseg = [];
+                trk_split.trkseg[0] = {};
+                trk_split.trkseg[0].trkpt = formatted_pts;
+
+
+                if (split_pts.length === 1) {
+                    trk_split.name = result.gpx.trk[i].name;
+                    result.gpx.trk[i] = trk_split;
+                } else
+                {
+                    result.gpx.trk.push(trk_split);
+                }
+
+                total_points += formatted_pts.length;
             }
+        }
 
         }
         /*
@@ -290,36 +341,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     for (var i = 0; i < wpts.length; i++) {
 
-                        var last_distance = 999999;
-                        var prev_distance = 999999;
-                        var nextNearest = -10;
-                        for (var j = 0; j < simple_rtes.length; j++) {
-                            var dist = distance(wpts[i], simple_rtes[j]);
-
-                            if (dist <= last_distance) {
-                                prev_distance = last_distance;
-                                last_distance = dist;
-                                if (typeof nearest !== "undefined") {
-                                    var nextNearest = nearest;
-                                }
-                                var nearest = j;
-                                if (nextNearest === -10) {
-                                    var nextNearest = nearest;
-                                }
-
-                            } else {
-                                if (dist <= prev_distance) {
-                                    nextNearest = j;
-                                }
-
-                            }
-
-                        }
-                        /*
-                         * Now splice in this waypoint
-                         */
-
-                        var position = Math.min(nearest, nextNearest) + 1;
+                        var pos = position(wpts[i], pts);
 
                         simple_rtes.splice(position, 0, wpts[i]);
 
@@ -465,5 +487,43 @@ function distance(coord1, coord2) {
     dist = dist * 1609.344;
 
     return dist;
+}
+
+function position(wpt, simple_pts) {
+    var last_distance = 999999;
+    var prev_distance = 999999;
+    var nextNearest = -10;
+    for (var j = 0; j < simple_pts.length; j++) {
+        var dist = distance(wpt, simple_pts[j]);
+
+        if (dist <= last_distance) {
+            prev_distance = last_distance;
+            last_distance = dist;
+            if (typeof nearest !== "undefined") {
+                var nextNearest = nearest;
+            }
+            var nearest = j;
+            if (nextNearest === -10) {
+                var nextNearest = nearest;
+            }
+
+        } else {
+            if (dist <= prev_distance) {
+                nextNearest = j;
+            }
+
+        }
+
+    }
+    /*
+     * Now return position in pts array
+     */
+
+    var position = Math.min(nearest, nextNearest) + 1;
+    return position;
+}
+
+function compareNumbers(a, b) {
+    return a - b;
 }
 
