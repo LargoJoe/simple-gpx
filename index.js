@@ -154,6 +154,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         }
 
                     }
+                    console.log(JSON.stringify(splits));
+
                     splits.sort(compareNumbers);
                     delete split_pts[0];
                     split_pts = [];
