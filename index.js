@@ -154,7 +154,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     }
                     splits.sort(compareNumbers);
-
+                    delete split_pts[0];
                     split_pts = [];
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var last_split = 0;
