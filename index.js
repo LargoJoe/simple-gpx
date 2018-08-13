@@ -146,7 +146,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     var splits = [];
                     for (var i = 0; i < wpts.length; i++) {
-                        var pos = position(wpts[i], simple_rtes);
+                        var pos = position(wpts[i], pts);
                         if (pos > 50 && pos < wpts.length - 50) {
                             splits.push(pos);
                         }
