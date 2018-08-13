@@ -127,7 +127,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 /*
                  * If split by control then split before simplification
                  */
-                if (typeof req.body.splittrk === "yes - by control" & result.gpx.wpt !== "undefined") {
+                if (typeof req.body.splittrk === "yes - by control" && result.gpx.wpt !== "undefined") {
 
                     var tmp = result.gpx.wpt;
 
@@ -167,9 +167,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     split_pts.push(trkpts)
 
                 }
-
-
-
 
 
             }
@@ -362,7 +359,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     formatted_rtepts[l].$.lat = simple_rtes[l].lat;
                     formatted_rtepts[l].$.lon = simple_rtes[l].lon;
                     if (formatted_rtepts.length === 50) {
-                        var rte = {}
+                        var rte = {};
 
                         rte.name = split_name + '-' + r; // route_name
                         r++;
