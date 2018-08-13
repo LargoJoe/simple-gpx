@@ -170,7 +170,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 }
 
-                console.log(split_pts.length);
+                console.log(JSON.stringify(splits));
 
 
 
