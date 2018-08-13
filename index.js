@@ -118,7 +118,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                             }
                         }
                         var trkpts = pts.slice(last_split, pts.length);
-                        split_pts.push(trkpts)
+                        split_pts.push(trkpts);
 
                     }
 
@@ -164,105 +164,104 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     }
                     var trkpts = pts.slice(last_split, pts.length);
-                    split_pts.push(trkpts)
+                    split_pts.push(trkpts);
 
                 }
 
 
-            }
 
 
 
-            /*
-             * If track has been split then delete original track from
-             * returned GPX
-             */
+                /*
+                 * If track has been split then delete original track from
+                 * returned GPX
+                 */
 
-            if (split_pts.length > 1) {
-                delete result.gpx.trk[i];
-            }
-
-
-
-            /*
-             * Simplify and replace trkpoints with simplified trkpoints for
-             * this trk
-             */
-
-            var total_points = 0;
-
-            for (var s = 0; s < split_pts.length; ++s) {
+                if (split_pts.length > 1) {
+                    delete result.gpx.trk[i];
+                }
 
 
 
-                var simple_pts = [];
-                // Need to filter to 500 or 10,000 points
-                if (input_tolerance == 500 || input_tolerance == 10000) {
+                /*
+                 * Simplify and replace trkpoints with simplified trkpoints for
+                 * this trk
+                 */
 
-                    var tolerance_metres = 5;
-                    var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
-                    var loop = true;
+                var total_points = 0;
 
-                    if (split_pts[s].length <= input_tolerance) {
-                        simple_pts = split_pts[s];
-                        loop = false;
-                    }
+                for (var s = 0; s < split_pts.length; ++s) {
 
 
-                    while (loop === true) {
-                        simple_pts = simplify(split_pts[s], tolerance);
 
-                        if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
-                        {
-                            tolerance = tolerance * simple_pts.length / input_tolerance;
-                        } else
-                        {
+                    var simple_pts = [];
+                    // Need to filter to 500 or 10,000 points
+                    if (input_tolerance == 500 || input_tolerance == 10000) {
+
+                        var tolerance_metres = 5;
+                        var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
+                        var loop = true;
+
+                        if (split_pts[s].length <= input_tolerance) {
+                            simple_pts = split_pts[s];
                             loop = false;
                         }
+
+
+                        while (loop === true) {
+                            simple_pts = simplify(split_pts[s], tolerance);
+
+                            if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
+                            {
+                                tolerance = tolerance * simple_pts.length / input_tolerance;
+                            } else
+                            {
+                                loop = false;
+                            }
+                        }
+
+
+                    } else
+                    {
+
+                        var tolerance = input_tolerance / metre(split_pts[s][0].lat);
+                        simple_pts = simplify(split_pts[s], tolerance);
+                    }
+                    var formatted_pts = [];
+                    for (var l = 0; l < simple_pts.length; ++l) {
+                        formatted_pts[l] = {};
+                        formatted_pts[l].$ = {};
+                        formatted_pts[l].$.lat = simple_pts[l].lat;
+                        formatted_pts[l].$.lon = simple_pts[l].lon;
+                        if (simple_pts[l].ele) {
+                            formatted_pts[l].ele = simple_pts[l].ele;
+                        }
+
+                        if (simple_pts[l].time) {
+                            formatted_pts[l].time = simple_pts[l].time;
+                        }
+
+
                     }
 
+                    var trk_split = {};
+                    trk_split.name = split_name + '-' + s; // track nam
+                    trk_split.trkseg = [];
+                    trk_split.trkseg[0] = {};
+                    trk_split.trkseg[0].trkpt = formatted_pts;
 
-                } else
-                {
 
-                    var tolerance = input_tolerance / metre(split_pts[s][0].lat);
-                    simple_pts = simplify(split_pts[s], tolerance);
-                }
-                var formatted_pts = [];
-                for (var l = 0; l < simple_pts.length; ++l) {
-                    formatted_pts[l] = {};
-                    formatted_pts[l].$ = {};
-                    formatted_pts[l].$.lat = simple_pts[l].lat;
-                    formatted_pts[l].$.lon = simple_pts[l].lon;
-                    if (simple_pts[l].ele) {
-                        formatted_pts[l].ele = simple_pts[l].ele;
+                    if (split_pts.length === 1) {
+                        trk_split.name = result.gpx.trk[i].name;
+                        result.gpx.trk[i] = trk_split;
+                    } else
+                    {
+                        result.gpx.trk.push(trk_split);
                     }
 
-                    if (simple_pts[l].time) {
-                        formatted_pts[l].time = simple_pts[l].time;
-                    }
-
-
+                    total_points += formatted_pts.length;
                 }
-
-                var trk_split = {};
-                trk_split.name = split_name + '-' + s; // track nam
-                trk_split.trkseg = [];
-                trk_split.trkseg[0] = {};
-                trk_split.trkseg[0].trkpt = formatted_pts;
-
-
-                if (split_pts.length === 1) {
-                    trk_split.name = result.gpx.trk[i].name;
-                    result.gpx.trk[i] = trk_split;
-                } else
-                {
-                    result.gpx.trk.push(trk_split);
-                }
-
-                total_points += formatted_pts.length;
             }
-        }
 
         }
         /*
