@@ -37,6 +37,7 @@ footer {
 
 .content {
      margin:auto;
+     margin: 10px;
      background-color: #fff;
      height: 100vh;
 }
