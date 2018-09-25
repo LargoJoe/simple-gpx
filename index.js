@@ -41,11 +41,11 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
             for (i = 0; i < result.gpx.wpt.length; i++) {
 
-                if (result.gpx.wpt[i].extensions === "undefined") {
+                if (result.gpx.wpt[i].extensions === undefined) {
                     result.gpx.wpt[i].extensions = {};
                 }
                 console.log(result.gpx.wpt[i].extensions);
-                if (result.gpx.wpt[i].extensions["wptx1:WaypointExtension"] === "undefined") {
+                if (result.gpx.wpt[i].extensions["wptx1:WaypointExtension"] === undefined) {
                     result.gpx.wpt[i].extensions["wptx1:WaypointExtension"] = {};
                 }
                 result.gpx.wpt[i].extensions["wptx1:WaypointExtension"]["wptx1:Proximity"] = 100.000;
