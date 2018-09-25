@@ -45,7 +45,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 for (i = 0; i < result.gpx.wpt.length; i++) {
 
                     if (result.gpx.wpt[i].extensions === undefined) {
-                        result.gpx.wpt[i].extensions = {};
+                        result.gpx.wpt[i].extensions = [];
                     }
 
                     if (result.gpx.wpt[i].extensions[0]["wptx1:WaypointExtension"] === undefined) {
