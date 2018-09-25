@@ -36,42 +36,20 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
 
 
-        if (req.body.proximityalarm !== "none") {
+        if (req.body.proximityalarm !== "None") {
             // Garmin Waypoint extensions
             result.gpx.$["xmlns:wptx1"] = "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
             // Garmin Waypoint proximity alarms
             if (typeof result.gpx.wpt !== "undefined") {
 
                 for (i = 0; i < result.gpx.wpt.length; i++) {
-                    var objs = [];
-
-                    if (result.gpx.wpt[i].extensions !== undefined) {
-                        var extensions = result.gpx.wpt[i].extensions[0];
-                        for (var key in extensions) {
-                            if (extensions.hasOwnProperty(key)) {
-                                if (key !== "wptx1:WaypointExtension") {
-                                    objs.key = extensions.key;
-                                }
-                            }
-                        }
-                    }
-
                     result.gpx.wpt[i].extensions = [];
                     result.gpx.wpt[i].extensions.push({"wptx1:WaypointExtension": {}});
                     result.gpx.wpt[i].extensions[0]["wptx1:WaypointExtension"] =
                             {"wptx1:Proximity": req.body.proximityalarm};
-
-                    for (var key in objs) {
-                        result.gpx.wpt[i].extensions[0].key = objs.key;
-                    }
-
                 }
             }
         }
-
-
-
-
 
         var tracks = result.gpx.trk;
         var tl = tracks.length;
