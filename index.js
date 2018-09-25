@@ -43,15 +43,15 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             if (typeof result.gpx.wpt !== "undefined") {
 
                 for (i = 0; i < result.gpx.wpt.length; i++) {
-                    console.log(result.gpx.wpt[i].extensions);
+
                     if (result.gpx.wpt[i].extensions === undefined) {
                         result.gpx.wpt[i].extensions = {};
                     }
 
-                    if (result.gpx.wpt[i].extensions["wptx1:WaypointExtension"] === undefined) {
-                        result.gpx.wpt[i].extensions["wptx1:WaypointExtension"] = {};
+                    if (result.gpx.wpt[i].extensions[0]["wptx1:WaypointExtension"] === undefined) {
+                        result.gpx.wpt[i].extensions[0]["wptx1:WaypointExtension"] = {};
                     }
-                    result.gpx.wpt[i].extensions["wptx1:WaypointExtension"] =
+                    result.gpx.wpt[i].extensions[0]["wptx1:WaypointExtension"] =
                             {"wptx1:Proximity": req.body.proximityalarm};
                 }
             }
