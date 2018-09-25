@@ -23,5 +23,6 @@ body {
 .content {
      margin:auto;
      background-color: #fff;
+     height: 100vh;
 }
 
