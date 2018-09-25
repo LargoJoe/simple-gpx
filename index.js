@@ -39,8 +39,9 @@ var gpx = req.file.buffer.toString();
         result.gpx.$["xmlns:wptx1"] = "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
                 // Garmin Waypoint proximity alarms
                 if (typeof result.gpx.wpt !== "undefined") {
-        var proximity = {"wptx1:WaypointExtension": {"wptx1:Proximity": req.body.proximityalarm}};
-                for (i = 0; i < result.gpx.wpt.length; i++) {
+        var proximity =
+        {"wptx1:WaypointExtension": {"wptx1:Proximity": req.body.proximityalarm} }
+        for (i = 0; i < result.gpx.wpt.length; i++) {
         result.gpx.wpt[i].extensions = [];
                 result.gpx.wpt[i].extensions.push(proximity);
         }
