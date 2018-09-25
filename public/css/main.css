@@ -20,6 +20,12 @@ body {
     width: 100vw;
    
 }
+header {
+    text-align: center;
+    background-color: #0FA0CE;
+    color: white;
+}
+
 .content {
      margin:auto;
      background-color: #fff;
