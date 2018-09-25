@@ -42,5 +42,13 @@ $(document).ready(function () {
                     $('#gpx-simplify-form').submit();
                 }
             });
+    $('#proximityalarm').on('change',
+            function (e) {
+                var file = $('#fileinput').val()
+                if (file.length > 0) {
+
+                    $('#gpx-simplify-form').submit();
+                }
+            });
 });
 
