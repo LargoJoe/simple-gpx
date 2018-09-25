@@ -43,7 +43,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             if (typeof result.gpx.wpt !== "undefined") {
 
                 for (i = 0; i < result.gpx.wpt.length; i++) {
-
+                    console.log(result.gpx.wpt[i].extensions);
                     if (result.gpx.wpt[i].extensions === undefined) {
                         result.gpx.wpt[i].extensions = {};
                     }
