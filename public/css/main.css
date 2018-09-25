@@ -35,10 +35,13 @@ footer {
     bottom: 0;
 }
 
-.content {
+.container {
      margin:auto;
-     margin: 10px;
-     background-color: #fff;
+        background-color: #fff;
      height: 100vh;
 }
+.content {
+   margin-left: 10px; 
+}
+
 
