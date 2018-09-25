@@ -19,24 +19,18 @@ and open the template in the editor.
             <h1>Simple GPX</h1>
             </header>
             
-            <p>This application will simplify your GPX tracks to reduce the file size. It will use a combination of stripping out any elevation and time data and using the Ramer–Douglas–Peucker algorithm to
-               reduce the number of track points to a tolerance you decide. Once the GPX is chosen, it will automatically be submitted for processing. A zipped file will be returned containing your slimmed down GPX file, plus a statistics file stats.txt. 
+            <p>You can: </p>
+            <ul>
+                <li>Simplify Tracks - for navigation</li>
+                <li>Split and simplify Tracks - by distance</li>
+                <li>Split and simplify Tracks - by Waypoint</li>
+                <li>Simplify Tracks - retain timestamps, elevation for tracklogs</li>
+                <li>Create Routes - from Tracks</li>
+                <li>Add Proximity Alarms - to Waypoints</li>
+                
+            </ul>
                
-                </p>
-                <p>Optionally you may also split a long track in to shorter tracks of 50km, 100km, 150km, 200km, 250km or 300km in length. If you do not provide a
-                 track prefix when splitting then it will default to Track, so your tracks will be named
-                 Track-1, Track-2 etc. Note the tracks will still be returned in a single zipped GPX file.
-                 Load the GPX into your software or GPS and you'll see the separate tracks.</p>
-                <p>You can now also retain timestamp or elevation data.  Elevation data will be rounded to the nearest metre. Timestamps should not be retained if you intend to navigate the track. The default is that both these items are stripped out.</p>
-                 
-                
-                
-                <p>A 10 metre tolerance gives a good balance between the resulting file size and how closely the new
-                GPX track follows the original. A 10 metre tolerance means that the new track alignment will differ from the original by no more than 10 metres at most were you to overlay them. Changing the tolerance will generate a new zipped file and GPX.</p>
-                  
-                <p>You may also generate a route from the track, split into 50 point sections to enable auto routing. The original track will be deleted from the returned GPX.</p>
-                
-                
+            <p>Result is returned as zip file containing GPX and stats.txt file.</p>                
                 <p>No details of tracks processed are kept on the server with everything done in memory.</p>
                  <p>Phil Whitehurst, 2016-2018</p>
                      
