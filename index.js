@@ -153,7 +153,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 /*
                  * If split by control then split before simplification
                  */
-                if (req.body.splittrk === "yes - by control" && result.gpx.wpt !== "undefined") {
+                if (req.body.splittrk === "yes - by waypoint" && result.gpx.wpt !== "undefined") {
 
                     var tmp = result.gpx.wpt;
 
