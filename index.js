@@ -49,7 +49,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         }
         var tracks = result.gpx.trk;
         var tl = tracks.length;
-        var input_tolerance = req.body.tolerance;
+        var input_accuracy = req.body.accuracy;
         for (var i = 0; i < tl; ++i) {
 
             if (typeof result.gpx.trk[i].extensions !== "undefined")
@@ -86,7 +86,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
 
-            if (!isNaN(parseInt(input_tolerance))) {
+            if (!isNaN(parseInt(input_accuracy))) {
 
 
                 // Delete all the trksegs
@@ -208,22 +208,22 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     var simple_pts = [];
                     // Need to filter to 500 or 10,000 points
-                    if (input_tolerance == 500 || input_tolerance == 10000) {
+                    if (input_accuracy == 500 || input_accuracy == 10000) {
 
-                        var tolerance_metres = 5;
-                        var tolerance = tolerance_metres / metre(split_pts[s][0].lat); // try 10 metres to start
+                        var accuracy_metres = 5;
+                        var accuracy = accuracy_metres / metre(split_pts[s][0].lat); // try 10 metres to start
                         var loop = true;
-                        if (split_pts[s].length <= input_tolerance) {
+                        if (split_pts[s].length <= input_accuracy) {
                             simple_pts = split_pts[s];
                             loop = false;
                         }
 
 
                         while (loop === true) {
-                            simple_pts = simplify(split_pts[s], tolerance);
-                            if (simple_pts.length > input_tolerance || simple_pts.length < input_tolerance * 0.99)
+                            simple_pts = simplify(split_pts[s], accuracy);
+                            if (simple_pts.length > input_accuracy || simple_pts.length < input_accuracy * 0.99)
                             {
-                                tolerance = tolerance * simple_pts.length / input_tolerance;
+                                accuracy = accuracy * simple_pts.length / input_accuracy;
                             } else
                             {
                                 loop = false;
@@ -234,8 +234,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     } else
                     {
 
-                        var tolerance = input_tolerance / metre(split_pts[s][0].lat);
-                        simple_pts = simplify(split_pts[s], tolerance);
+                        var accuracy = input_accuracy / metre(split_pts[s][0].lat);
+                        simple_pts = simplify(split_pts[s], accuracy);
                     }
                     var formatted_pts = [];
                     for (var l = 0; l < simple_pts.length; ++l) {
@@ -276,7 +276,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
          * if they have chosen to generate route
          */
 
-        if (input_tolerance === "route") {
+        if (input_accuracy === "route") {
 
             /*
              * If there is no route in the file generate a filtered one.
@@ -292,20 +292,20 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
 
 
-                input_tolerance_rte = parseInt(total_length_km / 5);
-                var tolerance_metres = 50;
-                var tolerance = tolerance_metres / metre(pts[0].lat);
+                input_accuracy_rte = parseInt(total_length_km / 5);
+                var accuracy_metres = 50;
+                var accuracy = accuracy_metres / metre(pts[0].lat);
                 var loop = true;
-                if (pts.length <= input_tolerance_rte) {
+                if (pts.length <= input_accuracy_rte) {
                     simple_rtes = pts;
                     loop = false;
                 }
 
                 while (loop === true) {
-                    simple_rtes = simplify(pts, tolerance);
-                    if (simple_rtes.length > input_tolerance_rte * 1.2 || simple_rtes.length < input_tolerance_rte * 0.8)
+                    simple_rtes = simplify(pts, accuracy);
+                    if (simple_rtes.length > input_accuracy_rte * 1.2 || simple_rtes.length < input_accuracy_rte * 0.8)
                     {
-                        tolerance = tolerance * simple_rtes.length / input_tolerance_rte;
+                        accuracy = accuracy * simple_rtes.length / input_accuracy_rte;
                     } else
                     {
                         loop = false;
@@ -404,8 +404,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         // Now add the stats file
         txt = "Simple GPX" + "\r\n" +
                 "https://simple-gpx.herokuapp.com" + "\r\n" +
-                "Tolerance chosen: " + input_tolerance + "\r\n";
-        if (!isNaN(parseInt(input_tolerance))) {
+                "Tolerance chosen: " + input_accuracy + "\r\n";
+        if (!isNaN(parseInt(input_accuracy))) {
             txt += "Split track: " + req.body.splittrk +
                     ", split distance: " + req.body.splitlength + "km \r\n" +
                     "Original tracks: " + tl +
