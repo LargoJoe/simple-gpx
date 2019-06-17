@@ -341,10 +341,12 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var r = 0;
                 var formatted_rtepts = [];
                 for (var l = 0; l < simple_rtes.length; ++l) {
-                    formatted_rtepts[l] = {};
-                    formatted_rtepts[l].$ = {};
-                    formatted_rtepts[l].$.lat = simple_rtes[l].lat;
-                    formatted_rtepts[l].$.lon = simple_rtes[l].lon;
+                    var rtept = {};
+
+                    rtept.$ = {};
+                    rtept.$.lat = simple_rtes[l].lat;
+                    rtept.$.lon = simple_rtes[l].lon;
+                    formatted_rtepts.push(rtept);
                     if (formatted_rtepts.length === 50) {
                         console.log("split");
                         var rte = {};
