@@ -454,8 +454,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var a_gpx_filename = '';
         var files_num = GPX.length;
         var xml = '';
-        var trk = 1;
-        var rte = 1;
+        var trk = 0;
+        var rte = 0;
         for (k = 0; k < files_num; k++) {
             if (typeof GPX[k].gpx.wpt !== "undefined") {
                 a_gpx_filename = gpx_filename + '_wpts' + ".gpx";
