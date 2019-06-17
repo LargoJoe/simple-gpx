@@ -409,6 +409,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         if (typeof result.gpx.trk !== "undefined") {
             tl_new = result.gpx.trk.length;
 
+            console_log("tracks " + tl_new);
+
             for (var j = 0; j < tl_new; j++) {
                 GPX[file] = JSON.parse(JSON.stringify(result));
                 if (typeof GPX[file].gpx.wpt !== "undefined") {
