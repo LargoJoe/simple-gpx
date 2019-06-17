@@ -472,13 +472,17 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 trk++;
             }
             if (typeof GPX[k].gpx.rte !== "undefined") {
-                var rtepts = GPX[k].gpx.rte.rtept
-                rtepts_length = rtepts.length
+                var rtepts = GPX[k].gpx.rte.rtept;
+                var rtepts_length = rtepts.length;
                 GPX[k].gpx.wpt = [];
                 for (var m = 0; m < rtepts_length; m++) {
                     var lat = rtepts[m].$.lat;
                     var lon = rtepts[m].$.lon;
-                    var wpt = {'lat': lat, 'lon': lon};
+                    var wpt = {};
+                    wpt.$ = {};
+                    wpt.$.lat = lat;
+                    wpt.$.lon = lon;
+
                     GPX[k].gpx.wpt.push(wpt);
                 }
 
