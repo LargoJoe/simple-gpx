@@ -465,7 +465,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 archive.append(xml, {name: a_gpx_filename});
             }
             if (typeof GPX[k].gpx.trk !== "undefined") {
-                a_gpx_filename = gpx_filename + '_trk' + trk + ".gpx";
+                a_gpx_filename = gpx_filename + split_name + trk + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
                 archive.append(xml, {name: a_gpx_filename});
