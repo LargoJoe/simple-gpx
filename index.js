@@ -479,6 +479,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 var rtepts_length = rtepts.length;
                 GPX[k].gpx.wpt = [];
                 for (var m = 0; m < rtepts_length; m++) {
+                    console.log(rtepts[m].$.lat);
                     var lat = rtepts[m].$.lat;
                     var lon = rtepts[m].$.lon;
                     var wpt = {};
