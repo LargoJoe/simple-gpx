@@ -472,6 +472,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 trk++;
             }
             if (typeof GPX[k].gpx.rte !== "undefined") {
+                var rtepts = GPX[k].gpx.rte.rtept
+                rtepts_length = rtepts.length
+                GPX[k].gpx.wpt = [];
+                for (var m = 0; m < rtepts_length; m++) {
+                    var lat = rtepts[m].$.lat;
+                    var lon = rtepts[m].$.lon;
+                    var wpt = {'lat': lat, 'lon': lon};
+                    GPX[k].gpx.wpt.push(wpt);
+                }
+
                 a_gpx_filename = gpx_filename + '_rte' + rte + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
