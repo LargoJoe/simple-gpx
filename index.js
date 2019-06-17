@@ -472,8 +472,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 trk++;
             }
             if (typeof GPX[k].gpx.rte !== "undefined") {
-                console.log(GPX[k].gpx.rte);
-                var rtepts = GPX[k].gpx.rte.rtept;
+
+                var rtepts = GPX[k].gpx.rte[0].rtept;
                 var rtepts_length = rtepts.length;
                 GPX[k].gpx.wpt = [];
                 for (var m = 0; m < rtepts_length; m++) {
