@@ -15,7 +15,7 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
-    var gpx_filename = req.file.originalname.substr(0, gpx_filename.length - 4);
+    var gpx_filename = req.file.originalname.substr(0, req.file.originalname.length - 4);
     parseString(gpx, function (err, result) {
         if (err) {
             res.send("That doesn't appear to be a GPX file. Use the back arrow and select a valid GPX.");
