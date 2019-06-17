@@ -9,13 +9,13 @@ var builder = new xml2js.Builder();
 var simplify = require('./simplify.js');
 var math = require('./math.min.js');
 var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
 var app = express();
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 app.post('/', upload.single('fileinput'), function (req, res) {
     var gpx = req.file.buffer.toString();
-    var gpx_filename = req.file.originalname;
+    var gpx_filename = req.file.originalname.substr(0, gpx_filename.length - 4);
     parseString(gpx, function (err, result) {
         if (err) {
             res.send("That doesn't appear to be a GPX file. Use the back arrow and select a valid GPX.");
@@ -40,7 +40,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             // Garmin Waypoint proximity alarms
             if (typeof result.gpx.wpt !== "undefined") {
 
-                var proximity = { "wptx1:WaypointExtension": { "wptx1:Proximity": req.body.proximityalarm } };
+                var proximity = {"wptx1:WaypointExtension": {"wptx1:Proximity": req.body.proximityalarm}};
                 for (i = 0; i < result.gpx.wpt.length; i++) {
                     result.gpx.wpt[i].extensions = [];
                     result.gpx.wpt[i].extensions.push(proximity);
@@ -372,7 +372,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
 
                 var routes_generated = "Routes generated: " + r +
-                    ', average points per route: ' + simple_rtes.length / r;
+                        ', average points per route: ' + simple_rtes.length / r;
             }
 
             /*
@@ -382,13 +382,13 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
             delete result.gpx.trk;
-            gpx_filename = gpx_filename.substr(0, gpx_filename.length - 4) + "_route" + ".gpx";
+
         }
 
         /*
-        * Now split out into seperate files for tracks and wpts if
-        * split was done.
-        */
+         * Now split out into seperate files for tracks and wpts if
+         * split was done.
+         */
 
 
         var GPX = [];
@@ -447,8 +447,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         }
 
         // Convert back to xml to send back to end user
-        var archive = archiver.create('zip', { name: 'phil' });
-        var filename = gpx_filename.substr(0, gpx_filename.length - 4) + '.zip';
+        var archive = archiver.create('zip', {name: 'phil'});
+        var filename = gpx_filename + '.zip';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
         // Now add all the GPX files to the archive;
         var a_gpx_filename = '';
@@ -456,54 +456,54 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var xml = '';
         var trk = 1;
         var rte = 1;
-        for (k=0;k<files_num;k++) {
+        for (k = 0; k < files_num; k++) {
             if (GPX[k].gpx.wpt !== "undefined") {
-                a_gpx_filename = gpx_filename + '_wpts';
+                a_gpx_filename = gpx_filename + '_wpts' + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
-                archive.append(xml, { name: a_gpx_filename });
+                archive.append(xml, {name: a_gpx_filename});
             }
             if (GPX[k].gpx.trk !== "undefined") {
-                a_gpx_filename = gpx_filename + '_trk' + trk;
+                a_gpx_filename = gpx_filename + '_trk' + trk + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
-                archive.append(xml, { name: a_gpx_filename });
+                archive.append(xml, {name: a_gpx_filename});
                 trk++;
             }
             if (GPX[k].gpx.rte !== "undefined") {
-                a_gpx_filename = gpx_filename + '_rte' + rte;
+                a_gpx_filename = gpx_filename + '_rte' + rte + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
-                archive.append(xml, { name: a_gpx_filename });
+                archive.append(xml, {name: a_gpx_filename});
                 rte++;
             }
 
         }
 
-     
-        
+
+
         // Now add the stats file
         txt = "Simple GPX" + "\r\n" +
-            "https://simple-gpx.herokuapp.com" + "\r\n" +
-            "Tolerance chosen: " + input_accuracy + "\r\n";
+                "https://simple-gpx.herokuapp.com" + "\r\n" +
+                "Tolerance chosen: " + input_accuracy + "\r\n";
         if (!isNaN(parseInt(input_accuracy))) {
             txt += "Split track: " + req.body.splittrk +
-                ", split distance: " + req.body.splitlength + "km \r\n" +
-                "Original tracks: " + tl +
-                ", simplified tracks: " + split_pts.length + "\r\n" +
-                "Original trackpoints: " + pts.length +
-                ", simplified trackpoints: " + total_points +
-                ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
+                    ", split distance: " + req.body.splitlength + "km \r\n" +
+                    "Original tracks: " + tl +
+                    ", simplified tracks: " + split_pts.length + "\r\n" +
+                    "Original trackpoints: " + pts.length +
+                    ", simplified trackpoints: " + total_points +
+                    ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
         }
         if (typeof routes_generated !== "undefined") {
             txt += routes_generated;
         }
 
 
-        archive.append(txt, { name: 'stats.txt' });
+        archive.append(txt, {name: 'stats.txt'});
         archive
-            .finalize()
-            .pipe(res);
+                .finalize()
+                .pipe(res);
     });
 });
 app.listen(app.get('port'), function () {
@@ -519,7 +519,7 @@ function accumulatedLengths(coords) {
     if (coords.length === 0)
         return [];
     var total = 0,
-        lengths = [0];
+            lengths = [0];
     var log = true;
     for (var i = 0, n = coords.length - 1; i < n; i++) {
 
