@@ -346,6 +346,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     formatted_rtepts[l].$.lat = simple_rtes[l].lat;
                     formatted_rtepts[l].$.lon = simple_rtes[l].lon;
                     if (formatted_rtepts.length === 50) {
+                        console.log("split");
                         var rte = {};
                         rte.name = split_name + '-' + r; // route_name
                         r++;
