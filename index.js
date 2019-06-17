@@ -407,8 +407,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         }
         // Split out track files if they exist
         if (typeof result.gpx.trk !== "undefined") {
-            tl = result.gpx.trk.length;
-            for (j = 0; j < tl; j++) {
+            tl_new = result.gpx.trk.length;
+            for (j = 0; j < tl_new; j++) {
                 GPX[file] = JSON.parse(JSON.stringify(result));
                 if (typeof GPX[file].gpx.wpt !== "undefined") {
                     delete GPX[file].gpx.wpt;
@@ -417,7 +417,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     delete GPX[file].gpx.rte;
                 }
 
-                for (i = 0; i < tl; i++) {
+                for (i = 0; i < tl_new; i++) {
                     if (i != j) {
                         delete GPX[file].gpx.trk[i];
                     }
