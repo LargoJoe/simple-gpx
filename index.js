@@ -480,13 +480,16 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var rtepts_length = rtepts.length;
                     GPX[k].gpx.wpt = [];
                     for (var m = 0; m < rtepts_length; m++) {
-                        console.log(rtepts[m].$.lat);
+                        var name = "R" + rte + "_" + m;
+
                         var lat = rtepts[m].$.lat;
                         var lon = rtepts[m].$.lon;
                         var wpt = {};
                         wpt.$ = {};
                         wpt.$.lat = lat;
                         wpt.$.lon = lon;
+                        rtepts[m].name = name;
+                        wpt.name = name;
 
                         GPX[k].gpx.wpt.push(wpt);
                     }
