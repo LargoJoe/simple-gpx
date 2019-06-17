@@ -409,7 +409,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         if (typeof result.gpx.trk !== "undefined") {
             tl_new = result.gpx.trk.length;
 
-            for (j = 0; j < tl_new; j++) {
+            for (var j = 0; j < tl_new; j++) {
                 GPX[file] = JSON.parse(JSON.stringify(result));
                 if (typeof GPX[file].gpx.wpt !== "undefined") {
                     delete GPX[file].gpx.wpt;
@@ -418,7 +418,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     delete GPX[file].gpx.rte;
                 }
 
-                for (i = 0; i < tl_new; i++) {
+                for (var i = 0; i < tl_new; i++) {
                     if (i != j) {
                         delete GPX[file].gpx.trk[i];
                     }
@@ -430,7 +430,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         if (typeof result.gpx.rte !== "undefined") {
             rl = result.gpx.rte.length;
 
-            for (j = 0; j < rl; j++) {
+            for (var j = 0; j < rl; j++) {
                 GPX[file] = JSON.parse(JSON.stringify(result));
                 if (typeof GPX[file].gpx.wpt !== "undefined") {
                     delete GPX[file].gpx.wpt;
@@ -439,7 +439,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     delete GPX[file].gpx.trk;
                 }
 
-                for (i = 0; i < rl; i++) {
+                for (var i = 0; i < rl; i++) {
                     if (i != j) {
                         delete GPX[file].gpx.rte[i];
                     }
