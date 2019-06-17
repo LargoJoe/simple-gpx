@@ -419,7 +419,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
 
                 for (var i = 0; i < tl_new; i++) {
-                    if (i != j) {
+                    if (i !== j) {
                         delete GPX[file].gpx.trk[i];
                     }
                 }
