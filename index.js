@@ -9,7 +9,7 @@ var builder = new xml2js.Builder();
 var simplify = require('./simplify.js');
 var math = require('./math.min.js');
 var storage = multer.memoryStorage();
-var upload = multer({storage: storage});
+var upload = multer({ storage: storage });
 var app = express();
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -40,7 +40,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             // Garmin Waypoint proximity alarms
             if (typeof result.gpx.wpt !== "undefined") {
 
-                var proximity = {"wptx1:WaypointExtension": {"wptx1:Proximity": req.body.proximityalarm}};
+                var proximity = { "wptx1:WaypointExtension": { "wptx1:Proximity": req.body.proximityalarm } };
                 for (i = 0; i < result.gpx.wpt.length; i++) {
                     result.gpx.wpt[i].extensions = [];
                     result.gpx.wpt[i].extensions.push(proximity);
@@ -52,8 +52,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var input_accuracy = req.body.accuracy;
         for (var i = 0; i < tl; ++i) {
 
-            if (typeof result.gpx.trk[i].extensions !== "undefined")
-            {
+            if (typeof result.gpx.trk[i].extensions !== "undefined") {
                 delete result.gpx.trk[i].extensions;
             }
             var trksegs = tracks[i].trkseg;
@@ -107,7 +106,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     var split_name = req.body.splitname === "" ? "Track" : req.body.splitname;
                     var split_length = req.body.splitlength * 1000;
                     var accumulated_lengths = accumulatedLengths(pts);
-                    var total_length = accumulated_lengths [accumulated_lengths.length - 1];
+                    var total_length = accumulated_lengths[accumulated_lengths.length - 1];
                     // Don't bother splitting if total length isn't 10% or more longer than
                     // split length
 
@@ -118,7 +117,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                         var last_split = 0;
                         var splits = 1;
                         for (var l = 0; l < accumulated_lengths.length; ++l) {
-                            if (accumulated_lengths [l] > split_length * splits) {
+                            if (accumulated_lengths[l] > split_length * splits) {
                                 var trkpts = pts.slice(last_split, l);
                                 last_split = l - 1;
                                 splits++;
@@ -196,6 +195,8 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
 
 
+
+
                 /*
                  * Simplify and replace trkpoints with simplified trkpoints for
                  * this trk
@@ -203,8 +204,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var total_points = 0;
                 for (var s = 0; s < split_pts.length; ++s) {
-
-
 
                     var simple_pts = [];
                     // Need to filter to 500 or 10,000 points
@@ -221,18 +220,15 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                         while (loop === true) {
                             simple_pts = simplify(split_pts[s], accuracy);
-                            if (simple_pts.length > input_accuracy || simple_pts.length < input_accuracy * 0.99)
-                            {
+                            if (simple_pts.length > input_accuracy || simple_pts.length < input_accuracy * 0.99) {
                                 accuracy = accuracy * simple_pts.length / input_accuracy;
-                            } else
-                            {
+                            } else {
                                 loop = false;
                             }
                         }
 
 
-                    } else
-                    {
+                    } else {
 
                         var accuracy = input_accuracy / metre(split_pts[s][0].lat);
                         simple_pts = simplify(split_pts[s], accuracy);
@@ -262,8 +258,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     if (split_pts.length === 1) {
                         trk_split.name = result.gpx.trk[i].name;
                         result.gpx.trk[i] = trk_split;
-                    } else
-                    {
+                    } else {
                         result.gpx.trk.push(trk_split);
                     }
 
@@ -272,6 +267,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             }
 
         }
+
         /*
          * if they have chosen to generate route
          */
@@ -286,7 +282,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 // We want an average of a route point every 5km.
                 if (typeof total_length === "undefined") {
                     var accumulated_lengths = accumulatedLengths(pts);
-                    var total_length_km = accumulated_lengths [accumulated_lengths.length - 1] / 1000;
+                    var total_length_km = accumulated_lengths[accumulated_lengths.length - 1] / 1000;
                 } else {
                     var total_length_km = total_length / 1000;
                 }
@@ -303,11 +299,9 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 while (loop === true) {
                     simple_rtes = simplify(pts, accuracy);
-                    if (simple_rtes.length > input_accuracy_rte * 1.2 || simple_rtes.length < input_accuracy_rte * 0.8)
-                    {
+                    if (simple_rtes.length > input_accuracy_rte * 1.2 || simple_rtes.length < input_accuracy_rte * 0.8) {
                         accuracy = accuracy * simple_rtes.length / input_accuracy_rte;
-                    } else
-                    {
+                    } else {
                         loop = false;
                     }
 
@@ -378,7 +372,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 }
 
                 var routes_generated = "Routes generated: " + r +
-                        ', average points per route: ' + simple_rtes.length / r;
+                    ', average points per route: ' + simple_rtes.length / r;
             }
 
             /*
@@ -391,38 +385,125 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             gpx_filename = gpx_filename.substr(0, gpx_filename.length - 4) + "_route" + ".gpx";
         }
 
+        /*
+        * Now split out into seperate files for tracks and wpts if
+        * split was done.
+        */
 
+
+        var GPX = [];
+        var file = 0;
+
+        // Split out a waypoints file if they exist
+        if (typeof result.gpx.wpt !== "undefined") {
+            GPX[file] = JSON.parse(JSON.stringify(result));
+            if (typeof GPX[file].gpx.trk !== "undefined") {
+                delete GPX[file].gpx.trk;
+            }
+            if (typeof GPX[file].gpx.rte !== "undefined") {
+                delete GPX[file].gpx.rte;
+            }
+            file++;
+        }
+        // Split out track files if they exist
+        if (typeof result.gpx.trk !== "undefined") {
+            tl = result.gpx.trk.length;
+            for (j = 0; j < tl; j++) {
+                GPX[file] = JSON.parse(JSON.stringify(result));
+                if (typeof GPX[file].gpx.wpt !== "undefined") {
+                    delete GPX[file].gpx.wpt;
+                }
+                if (typeof GPX[file].gpx.rte !== "undefined") {
+                    delete GPX[file].gpx.rte;
+                }
+
+                for (i = 0; i < tl; i++) {
+                    if (i != j) {
+                        delete GPX[file].gpx.trk[i];
+                    }
+                }
+                file++;
+            }
+        }
+        // Split out rte files if they exist
+        if (typeof result.gpx.rte !== "undefined") {
+            rl = result.gpx.rte.length;
+            for (j = 0; j < rl; j++) {
+                GPX[file] = JSON.parse(JSON.stringify(result));
+                if (typeof GPX[file].gpx.wpt !== "undefined") {
+                    delete GPX[file].gpx.wpt;
+                }
+                if (typeof GPX[file].gpx.trk !== "undefined") {
+                    delete GPX[file].gpx.trk;
+                }
+
+                for (i = 0; i < rl; i++) {
+                    if (i != j) {
+                        delete GPX[file].gpx.rte[i];
+                    }
+                }
+                file++;
+            }
+        }
 
         // Convert back to xml to send back to end user
-        var xml = builder.buildObject(result);
-        xml = xml.replace(/&#xD;/g, '');
-        //zip content to be returned
-        var archive = archiver.create('zip', {name: 'phil'});
+        var archive = archiver.create('zip', { name: 'phil' });
         var filename = gpx_filename.substr(0, gpx_filename.length - 4) + '.zip';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
-        archive.append(xml, {name: gpx_filename});
+        // Now add all the GPX files to the archive;
+        var a_gpx_filename = '';
+        var files_num = GPX.length;
+        var xml = '';
+        var trk = 1;
+        var rte = 1;
+        for (k=0;k<files_num;k++) {
+            if (GPX[k].gpx.wpt !== "undefined") {
+                a_gpx_filename = gpx_filename + '_wpts';
+                xml = builder.buildObject(GPX[k]);
+                xml = xml.replace(/&#xD;/g, '');
+                archive.append(xml, { name: a_gpx_filename });
+            }
+            if (GPX[k].gpx.trk !== "undefined") {
+                a_gpx_filename = gpx_filename + '_trk' + trk;
+                xml = builder.buildObject(GPX[k]);
+                xml = xml.replace(/&#xD;/g, '');
+                archive.append(xml, { name: a_gpx_filename });
+                trk++;
+            }
+            if (GPX[k].gpx.rte !== "undefined") {
+                a_gpx_filename = gpx_filename + '_rte' + rte;
+                xml = builder.buildObject(GPX[k]);
+                xml = xml.replace(/&#xD;/g, '');
+                archive.append(xml, { name: a_gpx_filename });
+                rte++;
+            }
+
+        }
+
+     
+        
         // Now add the stats file
         txt = "Simple GPX" + "\r\n" +
-                "https://simple-gpx.herokuapp.com" + "\r\n" +
-                "Tolerance chosen: " + input_accuracy + "\r\n";
+            "https://simple-gpx.herokuapp.com" + "\r\n" +
+            "Tolerance chosen: " + input_accuracy + "\r\n";
         if (!isNaN(parseInt(input_accuracy))) {
             txt += "Split track: " + req.body.splittrk +
-                    ", split distance: " + req.body.splitlength + "km \r\n" +
-                    "Original tracks: " + tl +
-                    ", simplified tracks: " + split_pts.length + "\r\n" +
-                    "Original trackpoints: " + pts.length +
-                    ", simplified trackpoints: " + total_points +
-                    ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
+                ", split distance: " + req.body.splitlength + "km \r\n" +
+                "Original tracks: " + tl +
+                ", simplified tracks: " + split_pts.length + "\r\n" +
+                "Original trackpoints: " + pts.length +
+                ", simplified trackpoints: " + total_points +
+                ", average trackpoints per track: " + parseInt(total_points / split_pts.length) + "\r\n";
         }
         if (typeof routes_generated !== "undefined") {
             txt += routes_generated;
         }
 
 
-        archive.append(txt, {name: 'stats.txt'});
+        archive.append(txt, { name: 'stats.txt' });
         archive
-                .finalize()
-                .pipe(res);
+            .finalize()
+            .pipe(res);
     });
 });
 app.listen(app.get('port'), function () {
@@ -438,7 +519,7 @@ function accumulatedLengths(coords) {
     if (coords.length === 0)
         return [];
     var total = 0,
-            lengths = [0];
+        lengths = [0];
     var log = true;
     for (var i = 0, n = coords.length - 1; i < n; i++) {
 
