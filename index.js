@@ -474,7 +474,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             if (typeof GPX[k].gpx.rte !== "undefined") {
 
 
-                if (typeof GPX[k].gpx.rte[0].rtept !== "undefined") {
+                if (typeof GPX[k].gpx.rte[0] !== "undefined") {
                     var rtepts = GPX[k].gpx.rte[0].rtept;
 
                     var rtepts_length = rtepts.length;
