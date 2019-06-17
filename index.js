@@ -178,12 +178,6 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                     split_pts.push(trkpts);
                 }
 
-
-
-
-
-
-
                 /*
                  * If track has been split then delete original track from
                  * returned GPX
@@ -412,20 +406,22 @@ app.post('/', upload.single('fileinput'), function (req, res) {
             console.log("tracks " + tl_new);
 
             for (var j = 0; j < tl_new; j++) {
-                GPX[file] = JSON.parse(JSON.stringify(result));
-                if (typeof GPX[file].gpx.wpt !== "undefined") {
-                    delete GPX[file].gpx.wpt;
-                }
-                if (typeof GPX[file].gpx.rte !== "undefined") {
-                    delete GPX[file].gpx.rte;
-                }
-
-                for (var i = 0; i < tl_new; i++) {
-                    if (i !== j) {
-                        delete GPX[file].gpx.trk[i];
+                if (result.gpx.trk[j].length > 0) {
+                    GPX[file] = JSON.parse(JSON.stringify(result));
+                    if (typeof GPX[file].gpx.wpt !== "undefined") {
+                        delete GPX[file].gpx.wpt;
                     }
+                    if (typeof GPX[file].gpx.rte !== "undefined") {
+                        delete GPX[file].gpx.rte;
+                    }
+
+                    for (var i = 0; i < tl_new; i++) {
+                        if (i !== j) {
+                            delete GPX[file].gpx.trk[i];
+                        }
+                    }
+                    file++;
                 }
-                file++;
             }
         }
         // Split out rte files if they exist
