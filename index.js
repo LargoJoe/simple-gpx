@@ -457,20 +457,20 @@ app.post('/', upload.single('fileinput'), function (req, res) {
         var trk = 1;
         var rte = 1;
         for (k = 0; k < files_num; k++) {
-            if (GPX[k].gpx.wpt !== "undefined") {
+            if (typeof GPX[k].gpx.wpt !== "undefined") {
                 a_gpx_filename = gpx_filename + '_wpts' + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
                 archive.append(xml, {name: a_gpx_filename});
             }
-            if (GPX[k].gpx.trk !== "undefined") {
+            if (typeof GPX[k].gpx.trk !== "undefined") {
                 a_gpx_filename = gpx_filename + '_trk' + trk + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
                 archive.append(xml, {name: a_gpx_filename});
                 trk++;
             }
-            if (GPX[k].gpx.rte !== "undefined") {
+            if (typeof GPX[k].gpx.rte !== "undefined") {
                 a_gpx_filename = gpx_filename + '_rte' + rte + ".gpx";
                 xml = builder.buildObject(GPX[k]);
                 xml = xml.replace(/&#xD;/g, '');
