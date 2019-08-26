@@ -72,6 +72,21 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                     if (req.body.timestamp === "yes") {
                         var timestamp = trkpts[k].time;
+
+                        if (req.body.timeshift !== 0) {
+                            var shift;
+                            if (req.body.timeshift === -1) {
+                                shift = -1;
+                            } else {
+                                shift = 1;
+                            }
+                            var old_timestamp = new Date(timestamp);
+                            old_timestamp.setMinutes(old_timestamp.getMinutes() + shift);
+                            timestamp = old_timestamp.toJSON();
+
+                        }
+
+
                         pt.time = timestamp;
                     }
 
