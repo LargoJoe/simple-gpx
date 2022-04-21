@@ -111,7 +111,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                           wpt = {}
                           wpt.lat = pts[l].lat;
                           wpt.lon = pts[l].lon;
-                          wpt.name
+                          wpt.name = "water";
 
 
                       }
