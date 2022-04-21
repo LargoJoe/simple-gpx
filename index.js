@@ -102,10 +102,10 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 */
 
               if (req.body.distancealarm !== "None") {
-                  let distancelarm = parseInt(req.body.distancealarm) * 1000;
+                  var distancelarm = parseInt(req.body.distancealarm) * 1000;
                   var accum_lengths = accumulatedLengths(pts);
-                  let alarm_distance = distancealarm
-                  let sequence = 1;
+                  var alarm_distance = distancealarm
+                  var sequence = 1;
                   for (var l = 0; l < accumulated_lengths.length; ++l) {
                       if (accum_lengths(l) > alarm_distance) {
                           wpt = {}
