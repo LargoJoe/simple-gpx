@@ -42,6 +42,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
 
                 var proximity = {"wptx1:WaypointExtension": {"wptx1:Proximity": req.body.proximityalarm}};
                 for (i = 0; i < result.gpx.wpt.length; i++) {
+                    console.log(result.gpx.wpt[i]);
                     result.gpx.wpt[i].extensions = [];
                     result.gpx.wpt[i].extensions.push(proximity);
                 }
@@ -96,6 +97,30 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 if (typeof result.gpx.trk[i].trkseg != "undefined") {
                     delete result.gpx.trk[i].trkseg;
                 }
+                /*
+                * If required as distance based waypoint alarms
+                */
+
+              if (req.body.distancealarm !== "None") {
+                  let distancelarm = parseInt(req.body.distancealarm) * 1000;
+                  var accum_lengths = accumulatedLengths(pts);
+                  let alarm_distance = distancealarm
+                  let sequence = 1;
+                  for (var l = 0; l < accumulated_lengths.length; ++l) {
+                      if (accum_lengths(l) > alarm_distance) {
+                          wpt = {}
+                          wpt.lat = pts[l].lat;
+                          wpt.lon = pts[l].lon;
+                          wpt.name
+
+
+                      }
+
+
+                  }
+
+
+              }
 
                 /*
                  * If required split track points up ready for simplification
