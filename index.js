@@ -102,6 +102,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                 */
 
               if (req.body.distancealarm !== "None") {
+                  var dpts = [pts]
                   var distancelarm = parseInt(req.body.distancealarm) * 1000;
                   var accum_lengths = accumulatedLengths(pts);
                   var alarm_distance = distancealarm
