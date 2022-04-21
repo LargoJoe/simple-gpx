@@ -106,7 +106,7 @@ app.post('/', upload.single('fileinput'), function (req, res) {
                   var accum_lengths = accumulatedLengths(pts);
                   var alarm_distance = distancealarm
                   var sequence = 1;
-                  for (var l = 0; l < accumulated_lengths.length; l++) {
+                  for (var l = 0; l < accum_lengths.length; l++) {
                       if (accum_lengths(l) > alarm_distance) {
                           wpt = {}
                           wpt.lat = pts[l].lat;
