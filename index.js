@@ -40,10 +40,15 @@ app.post("/", upload.single("fileinput"), function (req, res) {
     }
 
     result.gpx.$.creator = "Simple GPX https://simple-gpx.herokuapp.com";
-    if (req.body.proximityalarm !== "None") {
-      // Garmin Waypoint extensions
+    if (req.body.proximityalarm !== "None" || req.body.distanceproximityalarm !== "None" ) {
+          // Garmin Waypoint extensions
       result.gpx.$["xmlns:wptx1"] =
-        "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
+      "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
+
+    }
+    
+    if (req.body.proximityalarm !== "None") {
+    
       // Garmin Waypoint proximity alarms
       if (typeof result.gpx.wpt !== "undefined") {
         var proximity = {
@@ -99,12 +104,14 @@ app.post("/", upload.single("fileinput"), function (req, res) {
         var sequence = 1;
         for (var l = 0; l < accum_lengths.length; l++) {
           if (accum_lengths[l] > alarm_distance) {
+            
             var wpt = {};
             wpt.$ = {};
 
             wpt.$.lat = pts[l].lat;
             wpt.$.lon = pts[l].lon;
-            var name = req.body.distancename || "water " + sequence;
+            var name = req.body.distancename || "Water" 
+            name += " " + parseInt(alarm_distance / 1000) + "km";
             wpt.name = [];
             wpt.name.push(name);
 
@@ -125,10 +132,12 @@ app.post("/", upload.single("fileinput"), function (req, res) {
             }
             sequence++;
             alarm_distance += distancealarm;
+            
           }
         }
         
       }
+      
 
       if (!isNaN(parseInt(input_accuracy))) {
         // Delete all the trksegs
@@ -139,11 +148,7 @@ app.post("/", upload.single("fileinput"), function (req, res) {
         if (typeof result.gpx.trk[i].trkseg != "undefined") {
           delete result.gpx.trk[i].trkseg;
         }
-        /*
-         * If required as distance based waypoint alarms
-         */
-
-        
+         
 
         /*
          * If required split track points up ready for simplification
@@ -422,6 +427,7 @@ app.post("/", upload.single("fileinput"), function (req, res) {
     // Split out a waypoints file if they exist
     if (typeof result.gpx.wpt !== "undefined") {
       GPX[file] = JSON.parse(JSON.stringify(result));
+      
      
       if (typeof GPX[file].gpx.trk !== "undefined") {
         delete GPX[file].gpx.trk;
@@ -429,7 +435,9 @@ app.post("/", upload.single("fileinput"), function (req, res) {
       if (typeof GPX[file].gpx.rte !== "undefined") {
         delete GPX[file].gpx.rte;
       }
+      
       file++;
+      
     }
     // Split out track files if they exist
     if (typeof result.gpx.trk !== "undefined") {
@@ -483,6 +491,8 @@ app.post("/", upload.single("fileinput"), function (req, res) {
       "Content-disposition",
       'attachment; filename="' + filename + '"'
     );
+    // Pipe into the response stream
+    archive.pipe(res);
     // Now add all the GPX files to the archive;
     var a_gpx_filename = "";
     var files_num = GPX.length;
@@ -494,6 +504,7 @@ app.post("/", upload.single("fileinput"), function (req, res) {
         a_gpx_filename = gpx_filename + "_wpts" + ".gpx";
         xml = builder.buildObject(GPX[k]);
         xml = xml.replace(/&#xD;/g, "");
+        
         archive.append(xml, { name: a_gpx_filename });
       }
       if (typeof GPX[k].gpx.trk !== "undefined") {
@@ -567,7 +578,7 @@ app.post("/", upload.single("fileinput"), function (req, res) {
     }
 
     archive.append(txt, { name: "stats.txt" });
-    archive.finalize().pipe(res);
+    archive.finalize();
   });
 });
 app.listen(app.get("port"), function () {
